@@ -1,0 +1,9 @@
+# Секреты — НИКОГДА не коммитить (в GitHub храним в Actions Secrets)
+apify.config.json
+tools/apify.config.json
+telegram.config.json
+tools/telegram.config.json
+
+# Python
+__pycache__/
+*.pyc

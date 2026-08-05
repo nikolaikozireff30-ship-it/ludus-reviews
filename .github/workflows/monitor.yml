@@ -1,0 +1,37 @@
+name: Мониторинг отзывов LUDUS
+
+on:
+  schedule:
+    # Время в UTC. Пхукет = UTC+7 → 09:00, 12:00, 15:00, 18:00, 20:00 по Пхукету.
+    - cron: '0 2,5,8,11,13 * * *'
+  workflow_dispatch: {}   # кнопка ручного запуска в интерфейсе GitHub
+
+permissions:
+  contents: write          # чтобы коммитить обновлённую базу отзывов
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Собрать отзывы и уведомить
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          GOOGLE_MAPS_URL: ${{ secrets.GOOGLE_MAPS_URL }}
+          TRIPADVISOR_URLS: ${{ secrets.TRIPADVISOR_URLS }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python3 tools/сбор.py
+
+      - name: Сохранить обновлённую базу отзывов
+        run: |
+          git config user.name "ludus-reviews-bot"
+          git config user.email "bot@ludus.local"
+          git add данные/отзывы.json
+          git commit -m "reviews state $(date -u +%FT%TZ)" || echo "нет изменений"
+          git push
