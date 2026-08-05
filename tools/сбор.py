@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 """Сборщик отзывов LUDUS — Google Maps + TripAdvisor (Apify) + уведомления в Telegram.
 
-ЛОГИКА:
-  1. Тянет свежие отзывы с обоих источников.
-  2. Единый формат, дедуп по source:review_id, копит в данные/отзывы.json.
-  3. Первый запуск = база (без алертов). Дальше = дайджест каждый запуск + 🔴-аларм на <3★.
+РЕЖИМ РАБОТЫ (запуск каждые ~30 мин через GitHub Actions):
+  • Полный ДАЙДЖЕСТ шлётся только при пересечении целевых времён по Пхукету
+    (09/12/15/18/20) — ловится первым прогоном ПОСЛЕ времени, поэтому задержки
+    планировщика GitHub не важны.
+  • Промежуточные прогоны молчат, если новых отзывов нет; если есть — шлют сразу.
+  • Аларм на <3★ — всегда моментально.
+  • Дедуп по source:review_id → один отзыв уведомляется один раз.
 
-СЕКРЕТЫ: из apify.config.json / telegram.config.json (локально, в .gitignore)
-  ЛИБО из переменных окружения (в GitHub Actions):
-  APIFY_TOKEN, GOOGLE_MAPS_URL, TRIPADVISOR_URLS (через запятую),
-  TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID.
+СЕКРЕТЫ: apify.config.json / telegram.config.json (локально, в .gitignore)
+  ЛИБО переменные окружения (GitHub Actions):
+  APIFY_TOKEN, GOOGLE_MAPS_URL, TRIPADVISOR_URLS, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID.
 
-Отзывы публичные — ПД нет. Хранилище данные/отзывы.json — состояние дедупликации.
-Запуск: python3 tools/сбор.py
+Хранилище: данные/отзывы.json (дедуп), данные/состояние.json (какие дайджесты за день отправлены).
 """
 import datetime
 import json
@@ -25,11 +26,14 @@ import urllib.error
 
 GOOGLE_ACTOR = "compass~google-maps-reviews-scraper"
 TRIPADVISOR_ACTOR = "maxcopell~tripadvisor-reviews"
+СЛОТЫ = [9, 12, 15, 18, 20]          # целевые времена дайджеста (по Пхукету)
+СВЕЖИХ = 5                            # сколько последних отзывов тянуть за прогон (экономия Apify)
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(BASE)
 ДАННЫЕ = os.path.join(ROOT, "данные")
 СКЛАД = os.path.join(ДАННЫЕ, "отзывы.json")
+СОСТ = os.path.join(ДАННЫЕ, "состояние.json")
 
 
 def _найти(имя):
@@ -102,26 +106,25 @@ def норм_tripadvisor(it):
 
 
 def собрать(c):
-    """Возвращает (отзывы, статы_площадок). Статы — официальная оценка/кол-во с ресурса."""
     token = c["apify_token"]
     отзывы = []
     статы = {"google": {}, "tripadvisor": {}}
     g = (c.get("google_maps_url") or "").strip()
     if g and not g.startswith("ВСТАВЬ"):
-        st, items = запуск(GOOGLE_ACTOR, {"startUrls": [{"url": g}], "maxReviews": 30,
+        st, items = запуск(GOOGLE_ACTOR, {"startUrls": [{"url": g}], "maxReviews": СВЕЖИХ,
                                           "reviewsSort": "newest", "language": "en"}, token)
         if st in (200, 201) and isinstance(items, list):
             отзывы += [норм_google(x) for x in items]
             if items:
                 статы["google"] = {"rating": items[0].get("totalScore"),
-                                    "count": items[0].get("reviewsCount")}
+                                   "count": items[0].get("reviewsCount")}
         else:
             print(f"  ⚠ Google: HTTP {st}: {str(items)[:150]}")
     for u in c.get("tripadvisor_urls", []):
         u = (u or "").strip()
         if not u or u.startswith("ВСТАВЬ"):
             continue
-        st, items = запуск(TRIPADVISOR_ACTOR, {"startUrls": [{"url": u}], "maxReviewsPerUrl": 30}, token)
+        st, items = запуск(TRIPADVISOR_ACTOR, {"startUrls": [{"url": u}], "maxReviewsPerUrl": СВЕЖИХ}, token)
         if st in (200, 201) and isinstance(items, list):
             отзывы += [норм_tripadvisor(x) for x in items]
             if items:
@@ -135,17 +138,38 @@ def собрать(c):
 
 def ср_оценка(склад, src):
     vals = [x["rating"] for x in склад.values()
-            if x["source"] == src and isinstance(x["rating"], (int, float))]
+            if isinstance(x, dict) and x.get("source") == src and isinstance(x.get("rating"), (int, float))]
     return (round(sum(vals) / len(vals), 2) if vals else None), len(vals)
 
 
 def итог_оценка(src, статы, склад):
-    """Официальная оценка с ресурса, иначе — средняя по нашей базе."""
     s = статы.get(src) or {}
     ср, n = ср_оценка(склад, src)
     рейт = s.get("rating") if s.get("rating") is not None else ср
     кол = s.get("count") if s.get("count") is not None else n
     return рейт, кол
+
+
+# ---------- время / расписание ----------
+def сейчас_пхукет():
+    try:
+        from zoneinfo import ZoneInfo
+        return datetime.datetime.now(ZoneInfo("Asia/Bangkok"))
+    except Exception:
+        return datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=7)
+
+
+def загрузить_состояние():
+    if os.path.exists(СОСТ):
+        try:
+            return json.load(open(СОСТ, encoding="utf-8"))
+        except Exception:
+            pass
+    return {"date": "", "posted": []}
+
+
+def сохранить_состояние(s):
+    json.dump(s, open(СОСТ, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
 
 # ---------- форматирование ----------
@@ -171,15 +195,6 @@ def имя_ист(src):
     return "Google" if src == "google" else "TripAdvisor"
 
 
-def сейчас_пхукет():
-    """Текущее время по Пхукету (UTC+7) — где бы скрипт ни запускался (GitHub работает в UTC)."""
-    try:
-        from zoneinfo import ZoneInfo
-        return datetime.datetime.now(ZoneInfo("Asia/Bangkok"))
-    except Exception:
-        return datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=7)
-
-
 def дайджест(новые, статы, склад):
     дата = сейчас_пхукет().strftime("%d.%m %H:%M")
     строки = [f"📊 <b>LUDUS · Отзывы</b> — {дата}", "", "<b>Итоговая оценка клуба:</b>"]
@@ -187,17 +202,13 @@ def дайджест(новые, статы, склад):
         рейт, кол = итог_оценка(src, статы, склад)
         рстр = f"{рейт}★" if рейт is not None else "—"
         строки.append(f"{цвет(рейт)} {имя_ист(src)} — {рстр} · {кол} {плюр(кол)}")
-
     if not новые:
         строки += ["", "Новых отзывов за период нет."]
         return "\n".join(строки)
-
     порядок = sorted(новые, key=lambda x: (x["rating"] if isinstance(x["rating"], (int, float)) else 9))
     строки += ["", f"🆕 <b>Новых за период: {len(новые)}</b>"]
     for r in порядок:
         строки.append(f"{цвет(r['rating'])} Новый отзыв на {имя_ист(r['source'])} — ★{r['rating']}")
-
-    # Ссылки в конце, каждая — отдельным блоком, визуально разделены
     строки += ["", "━━━━━━━━━━━━━━━", "<b>🔗 Ссылки на отзывы:</b>"]
     for r in порядок:
         строки.append("")
@@ -243,41 +254,65 @@ def main():
 
     c = конфиг_apify()
     tg = конфиг_telegram()
+    now_ph = сейчас_пхукет()
+
+    # какие целевые времена дайджеста уже наступили сегодня и ещё не отправлены
+    сост = загрузить_состояние()
+    today = now_ph.strftime("%Y-%m-%d")
+    if сост.get("date") != today:
+        сост = {"date": today, "posted": []}
+    из_за = [s for s in СЛОТЫ if now_ph.hour >= s and s not in сост["posted"]]
+    время_дайджеста = len(из_за) > 0
+
     print("Собираю отзывы (Google + TripAdvisor)…")
     все, статы = собрать(c)
     print(f"  получено записей: {len(все)}")
 
-    now = datetime.datetime.now().isoformat(timespec="seconds")
+    now_iso = now_ph.isoformat(timespec="seconds")
     новые = []
     for r in все:
         if not r["review_id"]:
             continue
         ключ = r["source"] + ":" + r["review_id"]
         if ключ not in склад:
-            r["first_seen"] = now
+            r["first_seen"] = now_iso
             склад[ключ] = r
             новые.append(r)
     json.dump(склад, open(СКЛАД, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
-    print(f"Telegram: {'подключён' if tg else 'не настроен'} · новых: {len(новые)}")
+    print(f"Telegram: {'подключён' if tg else 'не настроен'} · новых: {len(новые)} · "
+          f"время дайджеста: {'да' if время_дайджеста else 'нет'}")
 
     if первый_запуск:
-        print(f"Первый запуск — занёс {len(новые)} отзывов как базу, алертов нет.")
+        # помечаем уже прошедшие сегодня слоты, чтобы не постить их задним числом
+        сост["posted"] = [s for s in СЛОТЫ if now_ph.hour >= s]
+        сохранить_состояние(сост)
         if tg:
             g_r, g_n = итог_оценка("google", статы, склад)
             t_r, t_n = итог_оценка("tripadvisor", статы, склад)
             tg_send(f"✅ <b>Мониторинг отзывов LUDUS запущен.</b>\n\n"
                     f"{цвет(g_r)} Google — {g_r}★ · {g_n} {плюр(g_n)}\n"
                     f"{цвет(t_r)} TripAdvisor — {t_r}★ · {t_n} {плюр(t_n)}\n\n"
-                    f"Дальше присылаю дайджест 5×/день и 🔴-аларм на отзывы ниже 3★.", tg)
+                    f"Дайджест в 09/12/15/18/20, 🔴-аларм на отзывы ниже 3★.", tg)
+        print("Первый запуск — база заложена.")
         return
 
-    if tg:
+    надо_дайджест = время_дайджеста or bool(новые)
+    if tg and надо_дайджест:
         tg_send(дайджест(новые, статы, склад), tg)
+    if tg:
         for r in новые:
             if isinstance(r["rating"], (int, float)) and r["rating"] < 3:
                 tg_send(аларм(r), tg)
+
+    if время_дайджеста:
+        сост["posted"] = sorted(set(сост["posted"]) | set(из_за))
+    сохранить_состояние(сост)
+
+    if надо_дайджест and tg:
         print("Telegram: отправлено.")
+    else:
+        print("Тихо (не время дайджеста и новых нет).")
 
 
 if __name__ == "__main__":
