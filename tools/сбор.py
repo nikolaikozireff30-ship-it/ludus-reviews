@@ -171,8 +171,17 @@ def имя_ист(src):
     return "Google" if src == "google" else "TripAdvisor"
 
 
+def сейчас_пхукет():
+    """Текущее время по Пхукету (UTC+7) — где бы скрипт ни запускался (GitHub работает в UTC)."""
+    try:
+        from zoneinfo import ZoneInfo
+        return datetime.datetime.now(ZoneInfo("Asia/Bangkok"))
+    except Exception:
+        return datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=7)
+
+
 def дайджест(новые, статы, склад):
-    дата = datetime.datetime.now().strftime("%d.%m %H:%M")
+    дата = сейчас_пхукет().strftime("%d.%m %H:%M")
     строки = [f"📊 <b>LUDUS · Отзывы</b> — {дата}", "", "<b>Итоговая оценка клуба:</b>"]
     for src in ("google", "tripadvisor"):
         рейт, кол = итог_оценка(src, статы, склад)
