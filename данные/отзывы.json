@@ -656,5 +656,19 @@
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2t0aFp6VTFWekF3V1ZoVU9FTlFkVEpRZG1NM05WRRAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOkthZzU1VzAwWVhUOENQdTJQdmM3NVE%7C%7C?hl=en",
   "owner_replied": false,
   "first_seen": "2026-08-05T19:37:46+07:00"
+ },
+ "tripadvisor:1071739356": {
+  "source": "tripadvisor",
+  "review_id": "1071739356",
+  "rating": 5,
+  "author": "Dan C",
+  "date": "2026-08-06",
+  "text": "Great experience with Muay Thai private sessions. The Ludus Spa is exceptional. Very professional staff and great sports recovery massage.",
+  "text_en": "",
+  "lang": "en",
+  "title": "Muay Thai and Spa",
+  "url": "https://www.tripadvisor.com/ShowUserReviews-g1215781-d34160485-r1071739356-Ludus_Sports_Complex_Chalong-Phuket_Town_Phuket.html",
+  "owner_replied": false,
+  "first_seen": "2026-08-06T12:00:29+07:00"
  }
 }
