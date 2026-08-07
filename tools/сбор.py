@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 """LUDUS reviews collector — Google Maps + TripAdvisor (Apify) + Telegram notifications.
 
-Запускается внешним планировщиком cron-job.org 5 раз в день (09/12/15/18/20 по Пхукету),
-который дёргает GitHub Actions (workflow_dispatch). GitHub-расписание НЕ используется —
-так экономим Apify (5 прогонов в день вместо 48).
+Запускается извне (cron-job.org → GitHub workflow_dispatch) 5×/день (09/12/15/18/20 Пхукет).
+Каждый прогон: тянет свежие отзывы → дедуп (данные/отзывы.json) → дайджест в Telegram +
+🔴-аларм на <3★. Плюс:
+  • ежедневный снимок оценок площадок → данные/снимки.json (история для трендов);
+  • месячный отчёт в начале нового месяца (оценка/динамика/новые отзывы/сравнение с прошлым).
 
-Каждый прогон: тянет свежие отзывы → дедуп по source:review_id (данные/отзывы.json) →
-шлёт дайджест в Telegram (итоговая оценка + новые) и 🔴-аларм на <3★. Логика слотов
-(данные/состояние.json) не даёт отправить один и тот же дайджест дважды.
-
-Сообщения бота — на английском. Секреты: *.config.json (локально) или env-переменные (Actions):
+Сообщения бота — на английском. Секреты: *.config.json (локально) или env (Actions):
 APIFY_TOKEN, GOOGLE_MAPS_URL, TRIPADVISOR_URLS, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID.
 """
 import datetime
@@ -23,14 +21,15 @@ import urllib.error
 
 GOOGLE_ACTOR = "compass~google-maps-reviews-scraper"
 TRIPADVISOR_ACTOR = "maxcopell~tripadvisor-reviews"
-СЛОТЫ = [9, 12, 15, 18, 20]     # целевые времена дайджеста (по Пхукету)
-СВЕЖИХ = 10                     # сколько последних отзывов тянуть за прогон
+СЛОТЫ = [8]          # ежедневный дайджест в 08:00 по Пхукету
+СВЕЖИХ = 15          # глубина выборки за прогон (раз в сутки — с запасом)
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(BASE)
 ДАННЫЕ = os.path.join(ROOT, "данные")
 СКЛАД = os.path.join(ДАННЫЕ, "отзывы.json")
 СОСТ = os.path.join(ДАННЫЕ, "состояние.json")
+СНИМКИ = os.path.join(ДАННЫЕ, "снимки.json")
 
 
 def _найти(имя):
@@ -143,11 +142,12 @@ def итог_оценка(src, статы, склад):
     s = статы.get(src) or {}
     ср, n = ср_оценка(склад, src)
     рейт = s.get("rating") if s.get("rating") is not None else ср
-    кол = s.get("count") if s.get("count") is not None else n
+    кандидаты = [x for x in (s.get("count"), n) if isinstance(x, int)]
+    кол = max(кандидаты) if кандидаты else None
     return рейт, кол
 
 
-# ---------- time / schedule ----------
+# ---------- time / state / snapshots ----------
 def сейчас_пхукет():
     try:
         from zoneinfo import ZoneInfo
@@ -156,17 +156,30 @@ def сейчас_пхукет():
         return datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=7)
 
 
-def загрузить_состояние():
-    if os.path.exists(СОСТ):
+def _load(путь, default):
+    if os.path.exists(путь):
         try:
-            return json.load(open(СОСТ, encoding="utf-8"))
+            return json.load(open(путь, encoding="utf-8"))
         except Exception:
             pass
-    return {"date": "", "posted": []}
+    return default
 
 
-def сохранить_состояние(s):
-    json.dump(s, open(СОСТ, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+def _save(путь, d):
+    json.dump(d, open(путь, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+
+
+def пред_месяц(m):
+    y, mo = int(m[:4]), int(m[5:7])
+    mo -= 1
+    if mo == 0:
+        mo, y = 12, y - 1
+    return f"{y:04d}-{mo:02d}"
+
+
+def снимок_конца(снимки, месяц):
+    ks = sorted(k for k in снимки if k.startswith(месяц))
+    return снимки[ks[-1]] if ks else None
 
 
 # ---------- formatting (English) ----------
@@ -225,6 +238,57 @@ def alarm(r):
     return s
 
 
+def monthly_report(месяц, склад, снимки):
+    y, mo = int(месяц[:4]), int(месяц[5:7])
+    имя_м = datetime.date(y, mo, 1).strftime("%B %Y")
+    пред = пред_месяц(месяц)
+    имя_пред = datetime.date(int(пред[:4]), int(пред[5:7]), 1).strftime("%b")
+    сн_к = снимок_конца(снимки, месяц)
+    сн_н = снимок_конца(снимки, пред)
+
+    L = [f"📈 <b>LUDUS · Monthly report — {имя_м}</b>", "", "<b>Overall rating (month end):</b>"]
+    for src, rk, ck in (("google", "g_rating", "g_count"), ("tripadvisor", "t_rating", "t_count")):
+        r_now = (сн_к or {}).get(rk)
+        c_now = (сн_к or {}).get(ck)
+        доп = ""
+        if сн_н and сн_н.get(rk) is not None and r_now is not None:
+            dr = round(r_now - сн_н[rk], 2)
+            dc = int((c_now or 0) - (сн_н.get(ck) or 0))
+            доп = f"  (Δ vs {имя_пред}: {dr:+g}★, {dc:+d} reviews)"
+        rs = f"{r_now}★" if r_now is not None else "—"
+        cs = c_now if c_now is not None else "—"
+        L.append(f"{dot(r_now)} {src_name(src)} — {rs} · {cs} reviews{доп}")
+
+    def за(m):
+        d = {"google": [], "tripadvisor": []}
+        for x in склад.values():
+            if isinstance(x, dict) and (x.get("date") or "").startswith(m) and x.get("source") in d:
+                d[x["source"]].append(x)
+        return d
+    тек = за(месяц)
+    всего = sum(len(v) for v in тек.values())
+    L += ["", f"<b>New reviews in {datetime.date(y, mo, 1).strftime('%B')}: {всего}</b>"]
+    for src in ("google", "tripadvisor"):
+        arr = тек[src]
+        if not arr:
+            continue
+        rr = [a["rating"] for a in arr if isinstance(a["rating"], (int, float))]
+        avg = round(sum(rr) / len(rr), 2) if rr else None
+        dist = {}
+        for a in arr:
+            if isinstance(a["rating"], (int, float)):
+                k = int(a["rating"])
+                dist[k] = dist.get(k, 0) + 1
+        ds = " ".join(f"{k}★×{dist[k]}" for k in sorted(dist, reverse=True))
+        avgs = f"{avg}★" if avg is not None else "—"
+        L.append(f"{dot(avg)} {src_name(src)} — {len(arr)} (avg {avgs})" + (f": {ds}" if ds else ""))
+
+    всего_пр = sum(len(v) for v in за(пред).values())
+    d = int(всего - всего_пр)
+    L += ["", f"<b>vs previous month:</b> {d:+d} new reviews (was {всего_пр})"]
+    return "\n".join(L)
+
+
 def tg_send(text, tg):
     tok, cid = tg
     data = urllib.parse.urlencode({"chat_id": cid, "text": text, "parse_mode": "HTML",
@@ -242,18 +306,18 @@ def tg_send(text, tg):
 # ---------- main ----------
 def main():
     os.makedirs(ДАННЫЕ, exist_ok=True)
-    склад = json.load(open(СКЛАД, encoding="utf-8")) if os.path.exists(СКЛАД) else {}
+    склад = _load(СКЛАД, {})
     первый_запуск = (len(склад) == 0)
 
     c = конфиг_apify()
     tg = конфиг_telegram()
     now_ph = сейчас_пхукет()
-
-    сост = загрузить_состояние()
     today = now_ph.strftime("%Y-%m-%d")
+
+    сост = _load(СОСТ, {"date": "", "posted": []})
     if сост.get("date") != today:
-        сост = {"date": today, "posted": []}
-    из_за = [s for s in СЛОТЫ if now_ph.hour >= s and s not in сост["posted"]]
+        сост = {"date": today, "posted": [], "last_monthly": сост.get("last_monthly")}
+    из_за = [s for s in СЛОТЫ if now_ph.hour >= s and s not in сост.get("posted", [])]
     время_дайджеста = len(из_за) > 0
 
     print("Collecting reviews (Google + TripAdvisor)…")
@@ -270,20 +334,26 @@ def main():
             r["first_seen"] = now_iso
             склад[ключ] = r
             новые.append(r)
-    json.dump(склад, open(СКЛАД, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    _save(СКЛАД, склад)
+
+    # ежедневный снимок оценок площадок (история для месячного отчёта)
+    снимки = _load(СНИМКИ, {})
+    g_r0, g_c0 = итог_оценка("google", статы, склад)
+    t_r0, t_c0 = итог_оценка("tripadvisor", статы, склад)
+    снимки[today] = {"g_rating": g_r0, "g_count": g_c0, "t_rating": t_r0, "t_count": t_c0}
+    _save(СНИМКИ, снимки)
 
     print(f"Telegram: {'on' if tg else 'off'} · new: {len(новые)} · digest-time: {'yes' if время_дайджеста else 'no'}")
 
     if первый_запуск:
         сост["posted"] = [s for s in СЛОТЫ if now_ph.hour >= s]
-        сохранить_состояние(сост)
+        сост["last_monthly"] = пред_месяц(now_ph.strftime("%Y-%m"))
+        _save(СОСТ, сост)
         if tg:
-            g_r, g_n = итог_оценка("google", статы, склад)
-            t_r, t_n = итог_оценка("tripadvisor", статы, склад)
             tg_send(f"✅ <b>LUDUS review monitor started.</b>\n\n"
-                    f"{dot(g_r)} Google — {g_r}★ · {g_n} {plural(g_n)}\n"
-                    f"{dot(t_r)} TripAdvisor — {t_r}★ · {t_n} {plural(t_n)}\n\n"
-                    f"Digest at 09/12/15/18/20, 🔴 alarm on reviews below 3★.", tg)
+                    f"{dot(g_r0)} Google — {g_r0}★ · {g_c0} {plural(g_c0)}\n"
+                    f"{dot(t_r0)} TripAdvisor — {t_r0}★ · {t_c0} {plural(t_c0)}\n\n"
+                    f"Daily digest at 08:00, 🔴 alarm below 3★, monthly report on the 1st.", tg)
         print("First run — baseline stored.")
         return
 
@@ -294,11 +364,21 @@ def main():
         for r in новые:
             if isinstance(r["rating"], (int, float)) and r["rating"] < 3:
                 tg_send(alarm(r), tg)
-
     if время_дайджеста:
-        сост["posted"] = sorted(set(сост["posted"]) | set(из_за))
-    сохранить_состояние(сост)
+        сост["posted"] = sorted(set(сост.get("posted", [])) | set(из_за))
 
+    # месячный отчёт — один раз в начале нового месяца за прошедший месяц
+    отчётный = пред_месяц(now_ph.strftime("%Y-%m"))
+    if "last_monthly" not in сост or сост.get("last_monthly") is None:
+        сост["last_monthly"] = отчётный   # сид: не слать отчёт за уже прошедший месяц
+    elif сост["last_monthly"] != отчётный:
+        есть = снимок_конца(снимки, отчётный) or any(
+            isinstance(x, dict) and (x.get("date") or "").startswith(отчётный) for x in склад.values())
+        if tg and есть:
+            tg_send(monthly_report(отчётный, склад, снимки), tg)
+        сост["last_monthly"] = отчётный
+
+    _save(СОСТ, сост)
     print("Telegram: sent." if (надо_дайджест and tg) else "Quiet (not digest-time, no new).")
 
 
