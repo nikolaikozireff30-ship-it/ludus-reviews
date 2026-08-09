@@ -359,7 +359,8 @@ def main():
         print("First run — baseline stored.")
         return
 
-    надо_дайджест = время_дайджеста or bool(новые)
+    force = os.environ.get("FORCE", "").strip().lower() in ("1", "true", "yes", "on")
+    надо_дайджест = force or время_дайджеста or bool(новые)
     if tg and надо_дайджест:
         tg_send(digest(новые, статы, склад), tg)
     if tg:

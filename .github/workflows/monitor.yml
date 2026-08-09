@@ -1,9 +1,14 @@
 name: Мониторинг отзывов LUDUS
 
 on:
-  # Запуск только извне: cron-job.org пунктуально дёргает workflow_dispatch 5×/день
-  # (09/12/15/18/20 по Пхукету). GitHub-расписание НЕ используем — экономим Apify.
-  workflow_dispatch: {}
+  # Запуск только извне: cron-job.org пунктуально дёргает workflow_dispatch раз в день (08:00 Пхукет).
+  # GitHub-расписание НЕ используем — экономим Apify.
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Прислать дайджест сейчас (в обход слота 08:00)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write          # чтобы коммитить обновлённую базу отзывов
@@ -25,6 +30,7 @@ jobs:
           TRIPADVISOR_URLS: ${{ secrets.TRIPADVISOR_URLS }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          FORCE: ${{ inputs.force }}
         run: python3 tools/сбор.py
 
       - name: Построить дашборд
