@@ -30,6 +30,7 @@ ROOT = os.path.dirname(BASE)
 СКЛАД = os.path.join(ДАННЫЕ, "отзывы.json")
 СОСТ = os.path.join(ДАННЫЕ, "состояние.json")
 СНИМКИ = os.path.join(ДАННЫЕ, "снимки.json")
+DASHBOARD_URL = "https://nikolaikozireff30-ship-it.github.io/ludus-reviews/"
 
 
 def _найти(имя):
@@ -210,17 +211,18 @@ def digest(new, статы, склад):
         lines.append(f"{dot(rt)} {src_name(src)} — {rs} · {cnt} {plural(cnt)}")
     if not new:
         lines += ["", "No new reviews in this period."]
-        return "\n".join(lines)
-    order = sorted(new, key=lambda x: (x["rating"] if isinstance(x["rating"], (int, float)) else 9))
-    lines += ["", f"🆕 <b>New this period: {len(new)}</b>"]
-    for r in order:
-        lines.append(f"{dot(r['rating'])} New review on {src_name(r['source'])} — ★{r['rating']}")
-    lines += ["", "━━━━━━━━━━━━━━━", "<b>🔗 Review links:</b>"]
-    for r in order:
-        lines.append("")
-        lines.append(f"{dot(r['rating'])} {src_name(r['source'])} · ★{r['rating']}")
-        if r["url"]:
-            lines.append(f"<a href=\"{esc(r['url'])}\">open review</a>")
+    else:
+        order = sorted(new, key=lambda x: (x["rating"] if isinstance(x["rating"], (int, float)) else 9))
+        lines += ["", f"🆕 <b>New this period: {len(new)}</b>"]
+        for r in order:
+            lines.append(f"{dot(r['rating'])} New review on {src_name(r['source'])} — ★{r['rating']}")
+        lines += ["", "━━━━━━━━━━━━━━━", "<b>🔗 Review links:</b>"]
+        for r in order:
+            lines.append("")
+            lines.append(f"{dot(r['rating'])} {src_name(r['source'])} · ★{r['rating']}")
+            if r["url"]:
+                lines.append(f"<a href=\"{esc(r['url'])}\">open review</a>")
+    lines += ["", f"<a href=\"{DASHBOARD_URL}\">Analytics</a>"]
     return "\n".join(lines)
 
 

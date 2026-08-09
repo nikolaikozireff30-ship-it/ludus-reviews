@@ -7,3 +7,6 @@ tools/telegram.config.json
 # Python
 __pycache__/
 *.pyc
+
+# macOS
+.DS_Store

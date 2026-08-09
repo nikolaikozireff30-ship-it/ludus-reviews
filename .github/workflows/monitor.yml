@@ -27,10 +27,13 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python3 tools/сбор.py
 
-      - name: Сохранить обновлённую базу отзывов
+      - name: Построить дашборд
+        run: python3 tools/дашборд.py
+
+      - name: Сохранить базу и дашборд
         run: |
           git config user.name "ludus-reviews-bot"
           git config user.email "bot@ludus.local"
-          git add данные
-          git commit -m "reviews state $(date -u +%FT%TZ)" || echo "нет изменений"
+          git add данные docs
+          git commit -m "reviews state + dashboard $(date -u +%FT%TZ)" || echo "нет изменений"
           git push
