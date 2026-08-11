@@ -211,7 +211,7 @@ function monthView(m){
       ${r.url?`<a href="${r.url}" target="_blank">open review ↗</a>`:""}</div>`).join("")
     || '<div class="mut">No reviews recorded for this month yet.</div>';
   const chart = (m.daily && m.daily.length)
-    ? `<canvas id="ch_${m.key}" height="120"></canvas>`
+    ? `<canvas id="ch_${m.key}" height="170"></canvas>`
     : `<div class="empty">Daily rating data is collected once a day.<br>The trend line for ${m.label} appears as snapshots accumulate.</div>`;
   return `${overallCards(DATA.overall)}
     <h2>${m.label} · rating trend</h2>
@@ -232,18 +232,30 @@ function chartOpts(vals){
   const nums=vals.filter(v=>typeof v==="number");
   const mn=nums.length?Math.max(0,Math.min(...nums)-0.3):0;
   return {responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
-    plugins:{legend:{labels:{color:"#cfcfcf",font:{family:"Montserrat"}}},
-      tooltip:{callbacks:{label:c=>c.dataset.label+": "+(c.parsed.y==null?"—":c.parsed.y.toFixed(2)+"★")}}},
-    scales:{y:{suggestedMin:mn,suggestedMax:5,ticks:{color:"#8f8f8f"},grid:{color:"#1c1c1c"}},
+    plugins:{legend:{labels:{color:"#cfcfcf",font:{family:"Montserrat"},
+      generateLabels:ch=>{const it=Chart.defaults.plugins.legend.labels.generateLabels(ch);
+        it.forEach(i=>{if(i.text==="New reviews"){i.fillStyle="#cfcfcf";i.strokeStyle="#cfcfcf";}});return it;}}},
+      tooltip:{callbacks:{label:c=>{
+        if(c.dataset.label==="New reviews"){const p=c.raw;return "★"+p.y+" · "+(p.src==="google"?"Google":"TripAdvisor")+" · "+p.author;}
+        return c.dataset.label+": "+(c.parsed.y==null?"—":c.parsed.y.toFixed(2)+"★");}}}},
+    scales:{y:{suggestedMin:mn,max:5,ticks:{color:"#8f8f8f",stepSize:(5-mn)>2?1:undefined},grid:{color:"#1c1c1c"}},
       x:{ticks:{color:"#8f8f8f",maxRotation:0,autoSkip:true},grid:{color:"#141414"}}}};
 }
 function drawMonthChart(m){
   const ctx=document.getElementById("ch_"+m.key); if(!ctx||charts[m.key])return;
+  const revs=(m.reviews||[]).filter(r=>typeof r.rating==="number"&&r.date&&r.date.startsWith(m.key));
+  const days=[...new Set(m.daily.map(d=>d.date.slice(8)).concat(revs.map(r=>r.date.slice(8))))].sort();
+  const snap=d=>m.daily.find(x=>x.date.slice(8)===d)||{};
+  const pts=revs.map(r=>({x:r.date.slice(8),y:r.rating,src:r.source,author:r.author||"—"}));
+  const pc=pts.map(p=>p.y<3?"#FF0005":(p.y<4?"#f4c000":"#2ec16b"));
   charts[m.key]=new Chart(ctx,{type:"line",
-    data:{labels:m.daily.map(d=>d.date.slice(8)),datasets:[
-      {label:"Google",data:m.daily.map(d=>d.g),borderColor:"#FF0005",backgroundColor:"#FF000522",tension:.3,spanGaps:true,pointRadius:2},
-      {label:"TripAdvisor",data:m.daily.map(d=>d.t),borderColor:"#A5A5A5",backgroundColor:"#A5A5A522",tension:.3,spanGaps:true,pointRadius:2}]},
-    options:chartOpts(m.daily.flatMap(d=>[d.g,d.t]))});
+    data:{labels:days,datasets:[
+      {label:"Google",data:days.map(d=>snap(d).g??null),borderColor:"#FF0005",backgroundColor:"#FF000522",tension:.3,spanGaps:true,pointRadius:2},
+      {label:"TripAdvisor",data:days.map(d=>snap(d).t??null),borderColor:"#A5A5A5",backgroundColor:"#A5A5A522",tension:.3,spanGaps:true,pointRadius:2},
+      {type:"scatter",label:"New reviews",data:pts,showLine:false,borderColor:"#cfcfcf",backgroundColor:"#cfcfcf",
+       pointBackgroundColor:c=>c.dataIndex==null?"#cfcfcf":pc[c.dataIndex],
+       pointBorderColor:c=>c.dataIndex==null?"#cfcfcf":pc[c.dataIndex],pointRadius:5,pointHoverRadius:7}]},
+    options:chartOpts(m.daily.flatMap(d=>[d.g,d.t]).concat(pts.map(p=>p.y)))});
 }
 function drawOverview(){
   const ctx=document.getElementById("ovChart"); if(!ctx||charts.ov)return;
