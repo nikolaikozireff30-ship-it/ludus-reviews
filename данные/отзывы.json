@@ -726,5 +726,19 @@
   "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21aV2JucFZXVzluVFRGQ1dFMXdjMVpqVVRNeVpYYxAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOmZWbnpVWW9nTTFCWE1wc1ZjUTMyZXc%7C%7C?hl=en",
   "owner_replied": false,
   "first_seen": "2026-08-10T08:00:26+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT25GaWVVUlFaVkpvWWpCNk0yaDZWRUpoY0dGTlYzYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT25GaWVVUlFaVkpvWWpCNk0yaDZWRUpoY0dGTlYzYxAB",
+  "rating": 2,
+  "author": "นุชจรี ซองเหลี่ยม",
+  "date": "2026-08-10",
+  "text": "",
+  "text_en": "",
+  "lang": "",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25GaWVVUlFaVkpvWWpCNk0yaDZWRUpoY0dGTlYzYxAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOnFieURQZVJoYjB6M2h6VEJhcGFNV3c%7C%7C?hl=en",
+  "owner_replied": false,
+  "first_seen": "2026-08-11T08:00:26+07:00"
  }
 }
