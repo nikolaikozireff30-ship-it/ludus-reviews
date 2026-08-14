@@ -44,10 +44,42 @@ def month_label(m):
     return datetime.date(int(m[:4]), int(m[5:7]), 1).strftime("%b %Y")
 
 
+МЕСТА_ФАЙЛ = os.path.join(BASE, "точки.json")
+
+
+def места_карт():
+    """Отслеживаемые точки из tools/точки.json; фолбэк — главные карточки."""
+    t = load(МЕСТА_ФАЙЛ, {})
+    if t.get("google") or t.get("tripadvisor"):
+        return {"google": t.get("google") or [], "tripadvisor": t.get("tripadvisor") or []}
+    return {"google": [{"key": "complex", "label": "Sports Complex"}],
+            "tripadvisor": [{"key": "ta", "label": "TripAdvisor"}]}
+
+
+def из_снимка(сн, src, key):
+    """Оценка/кол-во точки из снимка (новый формат places или легаси-поля)."""
+    if not сн:
+        return None, None
+    p = ((сн.get("places") or {}).get(src) or {}).get(key)
+    if p:
+        return p.get("r"), p.get("c")
+    if src == "google" and key == "complex":
+        return сн.get("g_rating"), сн.get("g_count")
+    if src == "tripadvisor" and key == "ta":
+        return сн.get("t_rating"), сн.get("t_count")
+    return None, None
+
+
 def build_data():
     снимки = load(os.path.join(ДАННЫЕ, "снимки.json"), {})
     склад = load(os.path.join(ДАННЫЕ, "отзывы.json"), {})
     reviews = [v for v in склад.values() if isinstance(v, dict)]
+    места = места_карт()
+    метки = {(src, pl["key"]): pl["label"] for src in ("google", "tripadvisor") for pl in места[src]}
+
+    def метка(r):
+        key = r.get("place") or ("complex" if r.get("source") == "google" else "ta")
+        return метки.get((r.get("source"), key), key)
 
     now = сейчас_пхукет()
     current = now.strftime("%Y-%m")
@@ -67,6 +99,16 @@ def build_data():
     for m in months_keys:
         snap_dates = sorted(k for k in снимки if k.startswith(m))
         daily = [{"date": d, "g": снимки[d].get("g_rating"), "t": снимки[d].get("t_rating")} for d in snap_dates]
+        # серии по точкам: [{src,key,label,data:[{date,r}...]}]
+        series = []
+        for src in ("google", "tripadvisor"):
+            for pl in места[src]:
+                pts = []
+                for d in snap_dates:
+                    r, _ = из_снимка(снимки[d], src, pl["key"])
+                    pts.append({"date": d, "r": r})
+                if any(p["r"] is not None for p in pts):
+                    series.append({"src": src, "key": pl["key"], "label": pl["label"], "data": pts})
         end_snap = снимки[snap_dates[-1]] if snap_dates else None
 
         mrev = [r for r in reviews if (r.get("date") or "").startswith(m)]
@@ -86,7 +128,7 @@ def build_data():
                 d_t = round(end_snap["t_rating"] - prev_snap["t_rating"], 2)
 
         out_months.append({
-            "key": m, "label": month_label(m), "daily": daily,
+            "key": m, "label": month_label(m), "daily": daily, "series": series,
             "new_total": len(mrev), "new_google": len(g_rev), "new_tripadvisor": len(t_rev),
             "avg_month": avg([r.get("rating") for r in mrev]),
             "avg_google": avg([r.get("rating") for r in g_rev]),
@@ -97,7 +139,7 @@ def build_data():
             "d_g": d_g, "d_t": d_t,
             "reviews": sorted([{
                 "source": r["source"], "rating": r.get("rating"), "date": r.get("date"),
-                "author": r.get("author"), "url": r.get("url"),
+                "author": r.get("author"), "url": r.get("url"), "place": метка(r),
                 "text": (r.get("text_en") or r.get("text") or "").strip()[:280],
             } for r in mrev], key=lambda x: x["date"] or "", reverse=True),
         })
@@ -105,8 +147,11 @@ def build_data():
             prev_snap = end_snap
 
     last = снимки[sorted(снимки)[-1]] if снимки else {}
-    overall = {"google": {"rating": last.get("g_rating"), "count": last.get("g_count")},
-               "tripadvisor": {"rating": last.get("t_rating"), "count": last.get("t_count")}}
+    overall = []
+    for src in ("google", "tripadvisor"):
+        for pl in места[src]:
+            r, cnt = из_снимка(last, src, pl["key"])
+            overall.append({"src": src, "key": pl["key"], "label": pl["label"], "rating": r, "count": cnt})
 
     return {"updated": now.strftime("%Y-%m-%d %H:%M"), "current_month": current,
             "overall": overall, "months": out_months}
@@ -133,15 +178,17 @@ body{margin:0;background:var(--bg);color:#fff;font-family:var(--body)}
 .tabs button{background:#0c0c0c;border:1px solid #2a2a2a;color:#bbb;border-radius:9px;padding:8px 14px;cursor:pointer;font-family:var(--head);letter-spacing:1px;font-size:13px;text-transform:uppercase}
 .tabs button.on{background:var(--red);color:#fff;border-color:var(--red)}
 .tabs button.future{opacity:.5}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;margin-bottom:22px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
 .card .k{font-family:var(--head);text-transform:uppercase;letter-spacing:1.5px;font-size:11px;color:var(--silver)}
-.card .v{font-family:var(--head);font-weight:700;font-size:40px;line-height:1;margin-top:6px}
+.card .v{font-family:var(--head);font-weight:700;font-size:32px;line-height:1;margin-top:6px}
 .card .v .s{color:var(--silver);font-size:16px;font-weight:500;margin-left:6px}
 .g{color:#2ec16b}.y{color:#f4c000}.r{color:var(--red)}
 h2{font-family:var(--head);text-transform:uppercase;letter-spacing:2px;font-size:15px;margin:26px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--red);display:inline-block}
-.chartbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:22px;position:relative}
+.chartbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:22px;position:relative;height:320px}
+.chartbox canvas{width:100%!important;height:100%!important;display:block}
 .empty{color:var(--silver);font-size:13px;text-align:center;padding:38px 10px}
+.tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
 .stat .k{font-family:var(--head);text-transform:uppercase;letter-spacing:1px;font-size:10px;color:var(--silver)}
@@ -157,7 +204,19 @@ td.r{text-align:right;font-family:var(--head)}
 .rev .t{color:#cfcfcf;font-size:13px;margin-top:3px}
 .rev a{color:var(--red);text-decoration:none;font-size:12px}
 .hide{display:none}.mut{color:var(--silver);font-size:12px}
-@media(max-width:720px){.cards{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){
+  .wrap{padding:18px 14px 50px}
+  .logo{font-size:22px;letter-spacing:2px}
+  .cards{grid-template-columns:1fr 1fr;gap:10px}
+  .stats{grid-template-columns:1fr 1fr;gap:10px}
+  .card .v{font-size:26px}
+  .stat .v{font-size:22px}
+  .chartbox{height:250px;padding:12px}
+  .tabs{gap:6px}
+  .tabs button{padding:7px 11px;font-size:12px}
+  table{min-width:520px}
+  h2{font-size:14px}
+}
 </style>
 </head>
 <body>
@@ -178,10 +237,11 @@ const hasData = m => m.new_total>0 || (m.daily && m.daily.length>0);
 const charts = {};
 
 function overallCards(o){
-  const c = s => {const r=o[s].rating,n=o[s].count; const name=s==="google"?"Google":"TripAdvisor";
+  return `<div class="cards">${o.map(c=>{
+    const name=c.src==="google"?("Google · "+c.label):"TripAdvisor";
     return `<div class="card"><div class="k">${name}</div>
-      <div class="v ${clr(r)}">${fx(r,1)}★ <span class="s">${n??"—"} reviews</span></div></div>`;};
-  return `<div class="cards">${c("google")}${c("tripadvisor")}</div>`;
+      <div class="v ${clr(c.rating)}">${fx(c.rating,1)}★ <span class="s">${c.count??"—"} reviews</span></div></div>`;
+  }).join("")}</div>`;
 }
 
 function overviewView(){
@@ -197,16 +257,16 @@ function overviewView(){
   return `${overallCards(DATA.overall)}
     <h2>Monthly overview</h2>
     <div class="chartbox">${dm.length?'<canvas id="ovChart" height="120"></canvas>':'<div class="empty">Collecting data — the chart appears as months are recorded.</div>'}</div>
-    <table><tr><th>Month</th><th style="text-align:right">New reviews</th>
+    <div class="tscroll"><table><tr><th>Month</th><th style="text-align:right">New reviews</th>
       <th style="text-align:right">Avg of month’s reviews</th>
       <th style="text-align:right">Google (end)</th><th style="text-align:right">TripAdvisor (end)</th></tr>
-      ${rows || '<tr><td colspan="5" class="mut">No data yet.</td></tr>'}</table>`;
+      ${rows || '<tr><td colspan="5" class="mut">No data yet.</td></tr>'}</table></div>`;
 }
 
 function monthView(m){
   const dist = Object.keys(m.dist).sort((a,b)=>b-a).map(k=>`<span>${k}★ × ${m.dist[k]}</span>`).join("");
   const revs = m.reviews.map(r=>`<div class="rev">
-      <div class="h">${clr(r.rating)?('<span class="'+clr(r.rating)+'">●</span> '):''}★${r.rating} · ${r.source==="google"?"Google":"TripAdvisor"} · ${r.author||"—"} · <span class="mut">${r.date||""}</span></div>
+      <div class="h">${clr(r.rating)?('<span class="'+clr(r.rating)+'">●</span> '):''}★${r.rating} · ${r.source==="google"?("Google · "+(r.place||"")):"TripAdvisor"} · ${r.author||"—"} · <span class="mut">${r.date||""}</span></div>
       ${r.text?`<div class="t">${escapeHtml(r.text)}</div>`:""}
       ${r.url?`<a href="${r.url}" target="_blank">open review ↗</a>`:""}</div>`).join("")
     || '<div class="mut">No reviews recorded for this month yet.</div>';
@@ -219,7 +279,7 @@ function monthView(m){
     <div class="stats">
       <div class="stat"><div class="k">New reviews</div><div class="v">${m.new_total}</div></div>
       <div class="stat"><div class="k">Avg of month’s reviews</div><div class="v ${clr(m.avg_month)}">${fx(m.avg_month,2)}</div></div>
-      <div class="stat"><div class="k">Google (month end)</div><div class="v ${clr(m.end_g)}">${fx(m.end_g,1)}★</div></div>
+      <div class="stat"><div class="k">Google Complex (month end)</div><div class="v ${clr(m.end_g)}">${fx(m.end_g,1)}★</div></div>
       <div class="stat"><div class="k">TripAdvisor (month end)</div><div class="v ${clr(m.end_t)}">${fx(m.end_t,1)}★</div></div>
     </div>
     <div class="dist">${dist||'<span class="mut">no distribution yet</span>'}</div>
@@ -236,29 +296,39 @@ function chartOpts(vals){
       generateLabels:ch=>{const it=Chart.defaults.plugins.legend.labels.generateLabels(ch);
         it.forEach(i=>{if(i.text==="New reviews"){i.fillStyle="#cfcfcf";i.strokeStyle="#cfcfcf";}});return it;}}},
       tooltip:{callbacks:{label:c=>{
-        if(c.dataset.label==="New reviews"){const p=c.raw;return "★"+p.y+" · "+(p.src==="google"?"Google":"TripAdvisor")+" · "+p.author;}
+        if(c.dataset.label==="New reviews"){const p=c.raw;return "★"+p.y+" · "+(p.src==="google"?("Google · "+p.place):"TripAdvisor")+" · "+p.author;}
         return c.dataset.label+": "+(c.parsed.y==null?"—":c.parsed.y.toFixed(2)+"★");}}}},
     scales:{y:{suggestedMin:mn,max:5,ticks:{color:"#8f8f8f",stepSize:(5-mn)>2?1:undefined},grid:{color:"#1c1c1c"}},
       x:{ticks:{color:"#8f8f8f",maxRotation:0,autoSkip:true},grid:{color:"#141414"}}}};
 }
+const PCOLOR={"google:complex":"#FF0005","google:gym":"#4da3ff","google:massage":"#b06bff",
+  "google:shop":"#ff9d3b","tripadvisor:ta":"#A5A5A5"};
+const PFALLBACK=["#2ec16b","#e91e63","#00bcd4","#8bc34a"];
 function drawMonthChart(m){
-  const ctx=document.getElementById("ch_"+m.key); if(!ctx||charts[m.key])return;
+  const ctx=document.getElementById("ch_"+m.key); if(!ctx)return;
+  if(charts[m.key])charts[m.key].destroy();
+  const series=m.series||[];
   const revs=(m.reviews||[]).filter(r=>typeof r.rating==="number"&&r.date&&r.date.startsWith(m.key));
-  const days=[...new Set(m.daily.map(d=>d.date.slice(8)).concat(revs.map(r=>r.date.slice(8))))].sort();
-  const snap=d=>m.daily.find(x=>x.date.slice(8)===d)||{};
-  const pts=revs.map(r=>({x:r.date.slice(8),y:r.rating,src:r.source,author:r.author||"—"}));
+  const days=[...new Set(series.flatMap(s=>s.data.filter(p=>p.r!=null).map(p=>p.date.slice(8)))
+    .concat(revs.map(r=>r.date.slice(8))))].sort();
+  const pts=revs.map(r=>({x:r.date.slice(8),y:r.rating,src:r.source,author:r.author||"—",place:r.place||""}));
   const pc=pts.map(p=>p.y<3?"#FF0005":(p.y<4?"#f4c000":"#2ec16b"));
+  const lineSets=series.map((s,i)=>{
+    const col=PCOLOR[s.src+":"+s.key]||PFALLBACK[i%PFALLBACK.length];
+    const byDay=Object.fromEntries(s.data.map(p=>[p.date.slice(8),p.r]));
+    return {label:s.label,data:days.map(d=>byDay[d]??null),borderColor:col,backgroundColor:col+"22",
+      tension:.3,spanGaps:true,pointRadius:2};
+  });
   charts[m.key]=new Chart(ctx,{type:"line",
-    data:{labels:days,datasets:[
-      {label:"Google",data:days.map(d=>snap(d).g??null),borderColor:"#FF0005",backgroundColor:"#FF000522",tension:.3,spanGaps:true,pointRadius:2},
-      {label:"TripAdvisor",data:days.map(d=>snap(d).t??null),borderColor:"#A5A5A5",backgroundColor:"#A5A5A522",tension:.3,spanGaps:true,pointRadius:2},
+    data:{labels:days,datasets:lineSets.concat([
       {type:"scatter",label:"New reviews",data:pts,showLine:false,borderColor:"#cfcfcf",backgroundColor:"#cfcfcf",
        pointBackgroundColor:c=>c.dataIndex==null?"#cfcfcf":pc[c.dataIndex],
-       pointBorderColor:c=>c.dataIndex==null?"#cfcfcf":pc[c.dataIndex],pointRadius:5,pointHoverRadius:7}]},
-    options:chartOpts(m.daily.flatMap(d=>[d.g,d.t]).concat(pts.map(p=>p.y)))});
+       pointBorderColor:c=>c.dataIndex==null?"#cfcfcf":pc[c.dataIndex],pointRadius:5,pointHoverRadius:7}])},
+    options:chartOpts(series.flatMap(s=>s.data.map(p=>p.r)).concat(pts.map(p=>p.y)))});
 }
 function drawOverview(){
-  const ctx=document.getElementById("ovChart"); if(!ctx||charts.ov)return;
+  const ctx=document.getElementById("ovChart"); if(!ctx)return;
+  if(charts.ov)charts.ov.destroy();
   const ms=DATA.months.filter(hasData);
   charts.ov=new Chart(ctx,{type:"line",
     data:{labels:ms.map(m=>m.label),datasets:[

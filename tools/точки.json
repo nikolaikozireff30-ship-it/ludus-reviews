@@ -1,0 +1,16 @@
+{
+  "google": [
+    {"key": "complex", "label": "Sports Complex",
+     "url": "https://maps.app.goo.gl/Jqv62JSkTKhSf7Cn7"},
+    {"key": "gym", "label": "Gym & Fitness",
+     "url": "https://www.google.com/maps/place/LUDUS+Gym+%26+Fitness/@7.8555513,98.3443199,17z/data=!4m6!3m5!1s0x30502fdd4e7883e5:0x413b47acee7ec37c!8m2!3d7.8554457!4d98.3443309!16s%2Fg%2F11zg_6h6pq"},
+    {"key": "massage", "label": "Massage",
+     "url": "https://www.google.com/maps/place/LUDUS+Massage/@7.8555513,98.3443199,17z/data=!4m6!3m5!1s0x30502f3f7a8e497b:0xbfc8579d67588a2e!8m2!3d7.8554113!4d98.3442146!16s%2Fg%2F11zg_69q1q"},
+    {"key": "shop", "label": "Sports Shop",
+     "url": "https://www.google.com/maps/place/LUDUS+Sports+Shop/@7.8555183,98.3443048,17z/data=!4m6!3m5!1s0x30502fdbaa929f0f:0x526ee8ad143ca89a!8m2!3d7.8554542!4d98.3444905!16s%2Fg%2F11zcr3yd7h"}
+  ],
+  "tripadvisor": [
+    {"key": "ta", "label": "TripAdvisor",
+     "url": "https://www.tripadvisor.com/Attraction_Review-g1215781-d34160485-Reviews-Ludus_Sports_Complex_Chalong-Phuket_Town_Phuket.html"}
+  ]
+}
