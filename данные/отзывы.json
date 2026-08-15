@@ -1220,5 +1220,20 @@
   "owner_replied": false,
   "place": "shop",
   "first_seen": "2026-08-14T18:01:02+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2tseWJFUXpRblJ3VFRkRlJWQnJabEZFTWpsTVdFRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2tseWJFUXpRblJ3VFRkRlJWQnJabEZFTWpsTVdFRRAB",
+  "rating": 5,
+  "author": "มาลินี ไทยช่วย",
+  "date": "2026-08-14",
+  "text": "ประทับใจมากค่ะ พนักงานนวดมีความเป็นมืออาชีพ นวดดี ใส่ใจลูกค้า และให้บริการอย่างอบอุ่น บรรยากาศภายในร้านสะอาด เงียบสงบ และผ่อนคลาย ทำให้รู้สึกสบายตั้งแต่เดินเข้ามาเลยค่ะ หากใครกำลังมองหาร้านนวดคุณภาพ ขอแนะนำที่นี่เลยค่ะ จะกลับมาใช้บริการอีกแน่นอน",
+  "text_en": "I was very impressed. The massage therapists were very professional, gave excellent massages, were attentive to clients, and provided warm service. The atmosphere inside the shop was clean, quiet, and relaxing, making me feel comfortable from the moment I walked in. If you're looking for a quality massage shop, I highly recommend this place. I will definitely come back again.",
+  "lang": "th",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tseWJFUXpRblJ3VFRkRlJWQnJabEZFTWpsTVdFRRAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOklybEQzQnRwTTdFRVBrZlFEMjlMWEE%7C%7C?hl=en",
+  "owner_replied": true,
+  "place": "complex",
+  "first_seen": "2026-08-15T08:00:27+07:00"
  }
 }
