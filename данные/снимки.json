@@ -111,7 +111,7 @@
  },
  "2026-08-16": {
   "g_rating": 4.7,
-  "g_count": 157,
+  "g_count": 158,
   "t_rating": 5,
   "t_count": 19,
   "places": {
@@ -119,7 +119,7 @@
     "complex": {
      "label": "Sports Complex",
      "r": 4.7,
-     "c": 157
+     "c": 158
     },
     "gym": {
      "label": "Gym & Fitness",
