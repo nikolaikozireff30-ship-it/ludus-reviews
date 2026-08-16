@@ -1235,5 +1235,20 @@
   "owner_replied": true,
   "place": "complex",
   "first_seen": "2026-08-15T08:00:27+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2pGdGFFUkRNMWxRYm5GTmFrSjBRVWxuTFVvdFdsRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2pGdGFFUkRNMWxRYm5GTmFrSjBRVWxuTFVvdFdsRRAB",
+  "rating": 4,
+  "author": "Ja Cob",
+  "date": "2026-08-15",
+  "text": "Pretty good abit expensive if you want to do it all but good equipment",
+  "text_en": "",
+  "lang": "en",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pGdGFFUkRNMWxRYm5GTmFrSjBRVWxuTFVvdFdsRRAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOjFtaERDM1lQbnFNakJ0QUlnLUotWlE%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "complex",
+  "first_seen": "2026-08-16T08:00:28+07:00"
  }
 }
