@@ -120,6 +120,29 @@ def build_data():
                 k = int(r["rating"])
                 dist[k] = dist.get(k, 0) + 1
 
+        def ключ_места(r):
+            return r.get("place") or ("complex" if r.get("source") == "google" else "ta")
+
+        нег = [r for r in mrev if isinstance(r.get("rating"), (int, float)) and r["rating"] < 3]
+        отвечено = [r for r in mrev if r.get("owner_replied")]
+        replied_pct = round(100 * len(отвечено) / len(mrev)) if mrev else None
+        unneg = sum(1 for r in нег if not r.get("owner_replied"))
+
+        # сравнительная таблица точек за месяц
+        place_stats = []
+        for src in ("google", "tripadvisor"):
+            for pl in места[src]:
+                конец = снимки[snap_dates[-1]] if snap_dates else None
+                p_r, p_c = из_снимка(конец, src, pl["key"])
+                pr = [r for r in mrev if r["source"] == src and ключ_места(r) == pl["key"]]
+                pr_rated = [r["rating"] for r in pr if isinstance(r.get("rating"), (int, float))]
+                p_avg = round(sum(pr_rated) / len(pr_rated), 2) if pr_rated else None
+                p_neg = sum(1 for v in pr_rated if v < 3)
+                p_rep = round(100 * sum(1 for r in pr if r.get("owner_replied")) / len(pr)) if pr else None
+                place_stats.append({"src": src, "key": pl["key"], "label": pl["label"],
+                                    "rating": p_r, "count": p_c, "new": len(pr), "avg": p_avg,
+                                    "neg": p_neg, "replied_pct": p_rep})
+
         d_g = d_t = None
         if end_snap and prev_snap:
             if end_snap.get("g_rating") is not None and prev_snap.get("g_rating") is not None:
@@ -133,13 +156,15 @@ def build_data():
             "avg_month": avg([r.get("rating") for r in mrev]),
             "avg_google": avg([r.get("rating") for r in g_rev]),
             "avg_tripadvisor": avg([r.get("rating") for r in t_rev]),
-            "dist": dist,
+            "dist": dist, "neg": len(нег), "replied_pct": replied_pct, "unneg": unneg,
+            "place_stats": place_stats,
             "end_g": (end_snap or {}).get("g_rating"), "end_gc": (end_snap or {}).get("g_count"),
             "end_t": (end_snap or {}).get("t_rating"), "end_tc": (end_snap or {}).get("t_count"),
             "d_g": d_g, "d_t": d_t,
             "reviews": sorted([{
                 "source": r["source"], "rating": r.get("rating"), "date": r.get("date"),
                 "author": r.get("author"), "url": r.get("url"), "place": метка(r),
+                "replied": bool(r.get("owner_replied")),
                 "text": (r.get("text_en") or r.get("text") or "").strip()[:280],
             } for r in mrev], key=lambda x: x["date"] or "", reverse=True),
         })
@@ -186,10 +211,13 @@ body{margin:0;background:var(--bg);color:#fff;font-family:var(--body)}
 .g{color:#2ec16b}.y{color:#f4c000}.r{color:var(--red)}
 h2{font-family:var(--head);text-transform:uppercase;letter-spacing:2px;font-size:15px;margin:26px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--red);display:inline-block}
 .chartbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:22px;position:relative;height:320px}
+.chartbox.slim{height:240px}
+.nr{font-size:11px;color:#f4c000;font-family:var(--head);letter-spacing:.5px}
+.nr.bad{color:var(--red)}
 .chartbox canvas{width:100%!important;height:100%!important;display:block}
 .empty{color:var(--silver);font-size:13px;text-align:center;padding:38px 10px}
 .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:14px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
 .stat .k{font-family:var(--head);text-transform:uppercase;letter-spacing:1px;font-size:10px;color:var(--silver)}
 .stat .v{font-family:var(--head);font-weight:700;font-size:26px;margin-top:4px}
@@ -198,7 +226,7 @@ h2{font-family:var(--head);text-transform:uppercase;letter-spacing:2px;font-size
 table{width:100%;border-collapse:collapse;margin-top:6px}
 th{font-family:var(--head);text-transform:uppercase;letter-spacing:1px;font-size:10px;color:var(--silver);text-align:left;padding:8px 8px;border-bottom:1px solid var(--line)}
 td{padding:9px 8px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:top}
-td.r{text-align:right;font-family:var(--head)}
+td.num{text-align:right;font-family:var(--head)}
 .rev{border-bottom:1px solid var(--line);padding:11px 0}
 .rev .h{font-family:var(--head);font-size:13px}
 .rev .t{color:#cfcfcf;font-size:13px;margin-top:3px}
@@ -250,10 +278,10 @@ function overviewView(){
     const dg=(typeof m.d_g==="number")?(m.d_g>=0?"+":"")+m.d_g:"—";
     const dt=(typeof m.d_t==="number")?(m.d_t>=0?"+":"")+m.d_t:"—";
     return `<tr><td>${m.label}</td>
-      <td class="r">${m.new_total}<div class="mut">${m.new_google} G · ${m.new_tripadvisor} T</div></td>
-      <td class="r ${clr(m.avg_month)}">${fx(m.avg_month,2)}</td>
-      <td class="r ${clr(m.end_g)}">${fx(m.end_g,1)}★<div class="mut">Δ ${dg}</div></td>
-      <td class="r ${clr(m.end_t)}">${fx(m.end_t,1)}★<div class="mut">Δ ${dt}</div></td></tr>`;}).join("");
+      <td class="num">${m.new_total}<div class="mut">${m.new_google} G · ${m.new_tripadvisor} T</div></td>
+      <td class="num ${clr(m.avg_month)}">${fx(m.avg_month,2)}</td>
+      <td class="num ${clr(m.end_g)}">${fx(m.end_g,1)}★<div class="mut">Δ ${dg}</div></td>
+      <td class="num ${clr(m.end_t)}">${fx(m.end_t,1)}★<div class="mut">Δ ${dt}</div></td></tr>`;}).join("");
   return `${overallCards(DATA.overall)}
     <h2>Monthly overview</h2>
     <div class="chartbox">${dm.length?'<canvas id="ovChart" height="120"></canvas>':'<div class="empty">Collecting data — the chart appears as months are recorded.</div>'}</div>
@@ -266,23 +294,42 @@ function overviewView(){
 function monthView(m){
   const dist = Object.keys(m.dist).sort((a,b)=>b-a).map(k=>`<span>${k}★ × ${m.dist[k]}</span>`).join("");
   const revs = m.reviews.map(r=>`<div class="rev">
-      <div class="h">${clr(r.rating)?('<span class="'+clr(r.rating)+'">●</span> '):''}★${r.rating} · ${r.source==="google"?("Google · "+(r.place||"")):"TripAdvisor"} · ${r.author||"—"} · <span class="mut">${r.date||""}</span></div>
+      <div class="h">${clr(r.rating)?('<span class="'+clr(r.rating)+'">●</span> '):''}★${r.rating} · ${r.source==="google"?("Google · "+(r.place||"")):"TripAdvisor"} · ${r.author||"—"} · <span class="mut">${r.date||""}</span>${r.replied?"":` <span class="nr${(typeof r.rating==="number"&&r.rating<3)?" bad":""}">⚠ no reply</span>`}</div>
       ${r.text?`<div class="t">${escapeHtml(r.text)}</div>`:""}
       ${r.url?`<a href="${r.url}" target="_blank">open review ↗</a>`:""}</div>`).join("")
     || '<div class="mut">No reviews recorded for this month yet.</div>';
-  const chart = (m.daily && m.daily.length)
-    ? `<canvas id="ch_${m.key}" height="170"></canvas>`
-    : `<div class="empty">Daily rating data is collected once a day.<br>The trend line for ${m.label} appears as snapshots accumulate.</div>`;
+  const kpiRep = m.replied_pct==null ? "—" : m.replied_pct+"%";
+  const repCls = m.replied_pct==null ? "" : (m.replied_pct>=80?"g":(m.replied_pct>=50?"y":"r"));
+  const table = (m.place_stats&&m.place_stats.length) ? `
+    <h2>Places · ${m.label}</h2>
+    <div class="tscroll"><table><tr><th>Place</th><th style="text-align:right">Rating</th>
+      <th style="text-align:right">Total</th><th style="text-align:right">New</th>
+      <th style="text-align:right">Avg new</th><th style="text-align:right">Negative</th>
+      <th style="text-align:right">Answered</th></tr>
+      ${m.place_stats.map(p=>`<tr>
+        <td>${p.src==="google"?("Google · "+p.label):"TripAdvisor"}</td>
+        <td class="num ${clr(p.rating)}">${fx(p.rating,1)}★</td>
+        <td class="num">${p.count??"—"}</td><td class="num">${p.new||"·"}</td>
+        <td class="num ${p.new?clr(p.avg):""}">${p.new?fx(p.avg,2):"·"}</td>
+        <td class="num ${p.neg?"r":""}">${p.neg||"·"}</td>
+        <td class="num">${p.replied_pct==null?"·":p.replied_pct+"%"}</td></tr>`).join("")}
+    </table></div>` : "";
   return `${overallCards(DATA.overall)}
-    <h2>${m.label} · rating trend</h2>
-    <div class="chartbox">${chart}</div>
+    <h2>${m.label} · new reviews by day</h2>
+    <div class="chartbox">${m.new_total?`<canvas id="bars_${m.key}"></canvas>`
+      :`<div class="empty">No reviews received in ${m.label} yet.</div>`}</div>
     <div class="stats">
       <div class="stat"><div class="k">New reviews</div><div class="v">${m.new_total}</div></div>
-      <div class="stat"><div class="k">Avg of month’s reviews</div><div class="v ${clr(m.avg_month)}">${fx(m.avg_month,2)}</div></div>
-      <div class="stat"><div class="k">Google Complex (month end)</div><div class="v ${clr(m.end_g)}">${fx(m.end_g,1)}★</div></div>
-      <div class="stat"><div class="k">TripAdvisor (month end)</div><div class="v ${clr(m.end_t)}">${fx(m.end_t,1)}★</div></div>
+      <div class="stat"><div class="k">Avg of new</div><div class="v ${clr(m.avg_month)}">${fx(m.avg_month,2)}</div></div>
+      <div class="stat"><div class="k">Negative (&lt;3★)</div><div class="v ${m.neg?"r":"g"}">${m.neg}</div></div>
+      <div class="stat"><div class="k">Answered</div><div class="v ${repCls}">${kpiRep}</div></div>
+      <div class="stat"><div class="k">No-reply negative</div><div class="v ${m.unneg?"r":"g"}">${m.unneg}</div></div>
     </div>
     <div class="dist">${dist||'<span class="mut">no distribution yet</span>'}</div>
+    <h2>${m.label} · rating trend</h2>
+    <div class="chartbox slim">${(m.series&&m.series.length)?`<canvas id="ch_${m.key}"></canvas>`
+      :`<div class="empty">Daily rating data is collected once a day.<br>The trend appears as snapshots accumulate.</div>`}</div>
+    ${table}
     <h2>Reviews received</h2>${revs}`;
 }
 
@@ -290,41 +337,50 @@ function escapeHtml(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;")
 
 function chartOpts(vals){
   const nums=vals.filter(v=>typeof v==="number");
-  const mn=nums.length?Math.max(0,Math.min(...nums)-0.3):0;
+  const mn=nums.length?Math.max(0,Math.min(...nums)-0.2):0;
   return {responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
-    plugins:{legend:{labels:{color:"#cfcfcf",font:{family:"Montserrat"},
-      generateLabels:ch=>{const it=Chart.defaults.plugins.legend.labels.generateLabels(ch);
-        it.forEach(i=>{if(i.text==="New reviews"){i.fillStyle="#cfcfcf";i.strokeStyle="#cfcfcf";}});return it;}}},
-      tooltip:{callbacks:{label:c=>{
-        if(c.dataset.label==="New reviews"){const p=c.raw;return "★"+p.y+" · "+(p.src==="google"?("Google · "+p.place):"TripAdvisor")+" · "+p.author;}
-        return c.dataset.label+": "+(c.parsed.y==null?"—":c.parsed.y.toFixed(2)+"★");}}}},
-    scales:{y:{suggestedMin:mn,max:5,ticks:{color:"#8f8f8f",stepSize:(5-mn)>2?1:undefined},grid:{color:"#1c1c1c"}},
+    plugins:{legend:{labels:{color:"#cfcfcf",font:{family:"Montserrat"}}},
+      tooltip:{callbacks:{label:c=>c.dataset.label+": "+(c.parsed.y==null?"—":c.parsed.y.toFixed(2)+"★")}}},
+    scales:{y:{suggestedMin:mn,max:5,ticks:{color:"#8f8f8f"},grid:{color:"#1c1c1c"}},
       x:{ticks:{color:"#8f8f8f",maxRotation:0,autoSkip:true},grid:{color:"#141414"}}}};
 }
-const PCOLOR={"google:complex":"#FF0005","google:gym":"#4da3ff","google:massage":"#b06bff",
-  "google:shop":"#ff9d3b","tripadvisor:ta":"#A5A5A5"};
-const PFALLBACK=["#2ec16b","#e91e63","#00bcd4","#8bc34a"];
+const PCOLOR={"google:complex":"#FF0005","google:gym":"#3987e5","google:massage":"#d95926",
+  "google:shop":"#199e70","tripadvisor:ta":"#c98500"};
+const PFALLBACK=["#d55181","#3987e5","#199e70","#c98500"];
+function drawBars(m){
+  const ctx=document.getElementById("bars_"+m.key); if(!ctx)return;
+  if(charts["b"+m.key])charts["b"+m.key].destroy();
+  const [yy,mo]=m.key.split("-").map(Number);
+  const nDays=new Date(yy,mo,0).getDate();
+  const days=Array.from({length:nDays},(_,i)=>String(i+1).padStart(2,"0"));
+  const g=Array(nDays).fill(0),ye=Array(nDays).fill(0),rr=Array(nDays).fill(0);
+  (m.reviews||[]).forEach(rv=>{
+    if(typeof rv.rating!=="number"||!rv.date||!rv.date.startsWith(m.key))return;
+    const d=parseInt(rv.date.slice(8),10)-1; if(d<0||d>=nDays)return;
+    if(rv.rating<3)rr[d]++; else if(rv.rating<4)ye[d]++; else g[d]++;});
+  const bar=(label,data,col)=>({label,data,backgroundColor:col,borderColor:"#111",
+    borderWidth:2,borderSkipped:false,borderRadius:3,maxBarThickness:26});
+  charts["b"+m.key]=new Chart(ctx,{type:"bar",
+    data:{labels:days,datasets:[bar("4–5★",g,"#2ec16b"),bar("3★",ye,"#f4c000"),bar("1–2★",rr,"#FF0005")]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+      plugins:{legend:{labels:{color:"#cfcfcf",font:{family:"Montserrat"}}},
+        tooltip:{filter:c=>c.parsed.y>0}},
+      scales:{x:{stacked:true,ticks:{color:"#8f8f8f",maxRotation:0,autoSkip:true},grid:{display:false}},
+        y:{stacked:true,ticks:{color:"#8f8f8f",stepSize:1,precision:0},grid:{color:"#1c1c1c"}}}}});
+}
 function drawMonthChart(m){
   const ctx=document.getElementById("ch_"+m.key); if(!ctx)return;
   if(charts[m.key])charts[m.key].destroy();
   const series=m.series||[];
-  const revs=(m.reviews||[]).filter(r=>typeof r.rating==="number"&&r.date&&r.date.startsWith(m.key));
-  const days=[...new Set(series.flatMap(s=>s.data.filter(p=>p.r!=null).map(p=>p.date.slice(8)))
-    .concat(revs.map(r=>r.date.slice(8))))].sort();
-  const pts=revs.map(r=>({x:r.date.slice(8),y:r.rating,src:r.source,author:r.author||"—",place:r.place||""}));
-  const pc=pts.map(p=>p.y<3?"#FF0005":(p.y<4?"#f4c000":"#2ec16b"));
+  const days=[...new Set(series.flatMap(s=>s.data.filter(p=>p.r!=null).map(p=>p.date.slice(8))))].sort();
   const lineSets=series.map((s,i)=>{
     const col=PCOLOR[s.src+":"+s.key]||PFALLBACK[i%PFALLBACK.length];
     const byDay=Object.fromEntries(s.data.map(p=>[p.date.slice(8),p.r]));
     return {label:s.label,data:days.map(d=>byDay[d]??null),borderColor:col,backgroundColor:col+"22",
-      tension:.3,spanGaps:true,pointRadius:2};
+      tension:.3,spanGaps:true,pointRadius:2,borderWidth:2};
   });
-  charts[m.key]=new Chart(ctx,{type:"line",
-    data:{labels:days,datasets:lineSets.concat([
-      {type:"scatter",label:"New reviews",data:pts,showLine:false,borderColor:"#cfcfcf",backgroundColor:"#cfcfcf",
-       pointBackgroundColor:c=>c.dataIndex==null?"#cfcfcf":pc[c.dataIndex],
-       pointBorderColor:c=>c.dataIndex==null?"#cfcfcf":pc[c.dataIndex],pointRadius:5,pointHoverRadius:7}])},
-    options:chartOpts(series.flatMap(s=>s.data.map(p=>p.r)).concat(pts.map(p=>p.y)))});
+  charts[m.key]=new Chart(ctx,{type:"line",data:{labels:days,datasets:lineSets},
+    options:chartOpts(series.flatMap(s=>s.data.map(p=>p.r)))});
 }
 function drawOverview(){
   const ctx=document.getElementById("ovChart"); if(!ctx)return;
@@ -343,7 +399,9 @@ function show(key){
   document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.k===key));
   const v=document.getElementById("views");
   if(key==="__ov__"){v.innerHTML=overviewView();drawOverview();}
-  else{const m=DATA.months.find(x=>x.key===key);v.innerHTML=monthView(m);if(m.daily&&m.daily.length)drawMonthChart(m);}
+  else{const m=DATA.months.find(x=>x.key===key);v.innerHTML=monthView(m);
+    if(m.new_total)drawBars(m);
+    if(m.series&&m.series.length)drawMonthChart(m);}
 }
 document.getElementById("updated").textContent="Updated: "+DATA.updated+" (Phuket) · refreshed daily";
 const tb=document.getElementById("tabs");
