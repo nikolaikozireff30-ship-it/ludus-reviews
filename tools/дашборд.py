@@ -274,21 +274,41 @@ function overallCards(o){
 
 function overviewView(){
   const dm = DATA.months.filter(hasData);
+  const all = dm.flatMap(m=>m.reviews||[]);
+  const rated = all.filter(r=>typeof r.rating==="number");
+  const totNeg = rated.filter(r=>r.rating<3).length;
+  const totAvg = rated.length?(rated.reduce((s,r)=>s+r.rating,0)/rated.length):null;
+  const totRep = all.length?Math.round(100*all.filter(r=>r.replied).length/all.length):null;
+  const totUnneg = rated.filter(r=>r.rating<3&&!r.replied).length;
+  const repCls = totRep==null?"":(totRep>=80?"g":(totRep>=50?"y":"r"));
   let rows = dm.slice().reverse().map(m=>{
     const dg=(typeof m.d_g==="number")?(m.d_g>=0?"+":"")+m.d_g:"—";
     const dt=(typeof m.d_t==="number")?(m.d_t>=0?"+":"")+m.d_t:"—";
     return `<tr><td>${m.label}</td>
       <td class="num">${m.new_total}<div class="mut">${m.new_google} G · ${m.new_tripadvisor} T</div></td>
       <td class="num ${clr(m.avg_month)}">${fx(m.avg_month,2)}</td>
+      <td class="num ${m.neg?"r":""}">${m.neg||"·"}</td>
+      <td class="num">${m.replied_pct==null?"·":m.replied_pct+"%"}</td>
       <td class="num ${clr(m.end_g)}">${fx(m.end_g,1)}★<div class="mut">Δ ${dg}</div></td>
       <td class="num ${clr(m.end_t)}">${fx(m.end_t,1)}★<div class="mut">Δ ${dt}</div></td></tr>`;}).join("");
   return `${overallCards(DATA.overall)}
-    <h2>Monthly overview</h2>
-    <div class="chartbox">${dm.length?'<canvas id="ovChart" height="120"></canvas>':'<div class="empty">Collecting data — the chart appears as months are recorded.</div>'}</div>
+    <h2>New reviews by month</h2>
+    <div class="chartbox">${dm.length?'<canvas id="ovBars"></canvas>':'<div class="empty">Collecting data — the chart appears as months are recorded.</div>'}</div>
+    <div class="stats">
+      <div class="stat"><div class="k">New reviews (all time)</div><div class="v">${all.length}</div></div>
+      <div class="stat"><div class="k">Avg of new</div><div class="v ${clr(totAvg)}">${fx(totAvg,2)}</div></div>
+      <div class="stat"><div class="k">Negative (&lt;3★)</div><div class="v ${totNeg?"r":"g"}">${totNeg}</div></div>
+      <div class="stat"><div class="k">Answered</div><div class="v ${repCls}">${totRep==null?"—":totRep+"%"}</div></div>
+      <div class="stat"><div class="k">No-reply negative</div><div class="v ${totUnneg?"r":"g"}">${totUnneg}</div></div>
+    </div>
+    <h2>Rating trend by month</h2>
+    <div class="chartbox slim">${dm.length?'<canvas id="ovTrend"></canvas>':'<div class="empty">Appears as months are recorded.</div>'}</div>
+    <h2>Months</h2>
     <div class="tscroll"><table><tr><th>Month</th><th style="text-align:right">New reviews</th>
-      <th style="text-align:right">Avg of month’s reviews</th>
+      <th style="text-align:right">Avg new</th><th style="text-align:right">Negative</th>
+      <th style="text-align:right">Answered</th>
       <th style="text-align:right">Google (end)</th><th style="text-align:right">TripAdvisor (end)</th></tr>
-      ${rows || '<tr><td colspan="5" class="mut">No data yet.</td></tr>'}</table></div>`;
+      ${rows || '<tr><td colspan="7" class="mut">No data yet.</td></tr>'}</table></div>`;
 }
 
 function monthView(m){
@@ -383,14 +403,35 @@ function drawMonthChart(m){
     options:chartOpts(series.flatMap(s=>s.data.map(p=>p.r)))});
 }
 function drawOverview(){
-  const ctx=document.getElementById("ovChart"); if(!ctx)return;
-  if(charts.ov)charts.ov.destroy();
   const ms=DATA.months.filter(hasData);
-  charts.ov=new Chart(ctx,{type:"line",
-    data:{labels:ms.map(m=>m.label),datasets:[
-      {label:"Google (month end)",data:ms.map(m=>m.end_g),borderColor:"#FF0005",tension:.3,spanGaps:true,pointRadius:3},
-      {label:"Avg of month’s reviews",data:ms.map(m=>m.avg_month),borderColor:"#2ec16b",borderDash:[5,4],tension:.3,spanGaps:true,pointRadius:3}]},
-    options:chartOpts(ms.flatMap(m=>[m.end_g,m.avg_month]))});
+  const b=document.getElementById("ovBars");
+  if(b){
+    if(charts.ovb)charts.ovb.destroy();
+    const band=f=>ms.map(m=>Object.entries(m.dist||{}).reduce((s,[k,v])=>s+(f(+k)?v:0),0));
+    const bar=(label,data,col)=>({label,data,backgroundColor:col,borderColor:"#111",
+      borderWidth:2,borderSkipped:false,borderRadius:3,maxBarThickness:56});
+    charts.ovb=new Chart(b,{type:"bar",
+      data:{labels:ms.map(m=>m.label),datasets:[
+        bar("4–5★",band(k=>k>=4),"#2ec16b"),bar("3★",band(k=>k===3),"#f4c000"),bar("1–2★",band(k=>k<3),"#FF0005")]},
+      options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+        plugins:{legend:{labels:{color:"#cfcfcf",font:{family:"Montserrat"}}},tooltip:{filter:c=>c.parsed.y>0}},
+        scales:{x:{stacked:true,ticks:{color:"#8f8f8f",maxRotation:0},grid:{display:false}},
+          y:{stacked:true,ticks:{color:"#8f8f8f",stepSize:5,precision:0},grid:{color:"#1c1c1c"}}}}});
+  }
+  const t=document.getElementById("ovTrend");
+  if(t){
+    if(charts.ovt)charts.ovt.destroy();
+    const keys=[...new Set(ms.flatMap(m=>(m.place_stats||[]).map(p=>p.src+":"+p.key)))];
+    const sets=keys.map((k,i)=>{
+      const col=PCOLOR[k]||PFALLBACK[i%PFALLBACK.length];
+      const pts=ms.map(m=>{const p=(m.place_stats||[]).find(x=>x.src+":"+x.key===k);return p?p.rating:null;});
+      const first=ms.flatMap(m=>m.place_stats||[]).find(x=>x.src+":"+x.key===k);
+      return {label:first.src==="google"?first.label:"TripAdvisor",data:pts,borderColor:col,
+        backgroundColor:col+"22",tension:.3,spanGaps:true,pointRadius:3,borderWidth:2};
+    });
+    charts.ovt=new Chart(t,{type:"line",data:{labels:ms.map(m=>m.label),datasets:sets},
+      options:chartOpts(ms.flatMap(m=>(m.place_stats||[]).map(p=>p.rating)))});
+  }
 }
 
 const tabs=[{key:"__ov__",label:"Overview",future:false}]
