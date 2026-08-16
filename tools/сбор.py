@@ -241,7 +241,9 @@ def имя_точки(src, key, места):
 
 def digest(new, статы, склад, места):
     ts = сейчас_пхукет().strftime("%d.%m %H:%M")
-    lines = [f"📊 <b>LUDUS · Reviews</b> — {ts}", "", "<b>Overall rating:</b>"]
+    lines = [f"📊 <b>LUDUS · Reviews</b> — {ts}",
+             f"📈 <a href=\"{DASHBOARD_URL}\">Analytics dashboard</a>",
+             "", "<b>Overall rating:</b>"]
     for src in ("google", "tripadvisor"):
         for pl in места.get(src, []):
             rt, cnt = итог_оценка(src, pl["key"], статы, склад)
@@ -260,7 +262,6 @@ def digest(new, статы, склад, места):
             lines.append(f"{dot(r['rating'])} {имя_точки(r['source'], место_отзыва(r), места)} · ★{r['rating']}")
             if r["url"]:
                 lines.append(f"<a href=\"{esc(r['url'])}\">open review</a>")
-    lines += ["", f"<a href=\"{DASHBOARD_URL}\">Analytics</a>"]
     return "\n".join(lines)
 
 
