@@ -1265,5 +1265,35 @@
   "owner_replied": false,
   "place": "complex",
   "first_seen": "2026-08-16T14:05:52+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT25sdU1HTTBTM0V3ZW1aMFJHSnRSMnR4YlZkTFdFRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT25sdU1HTTBTM0V3ZW1aMFJHSnRSMnR4YlZkTFdFRRAB",
+  "rating": 1,
+  "author": "Иван Иванов",
+  "date": "2026-08-17",
+  "text": "Остался крайне недоволен качеством обслуживания и отношением персонала.\n\nС самого начала сотрудники произвели впечатление недоброжелательных и надменных. Вместо нормального знакомства с залом основной акцент был на том, чтобы продать как можно больше услуг. Бесплатного первого посещения для знакомства с залом нет.\n\nСам зал новый, как и оборудование, но тренажёры преимущественно китайского производства и лично на меня какого-то особого впечатления не произвели. Организация пространства также оставляет желать лучшего: инвентарь разбросан, гантели стоят без нормальной сортировки по весу, из-за чего приходится постоянно искать нужные.\n\nНо больше всего разочаровало отношение персонала. После первого посещения я решил отказаться от месячного абонемента и попросил вернуть деньги, удержав стоимость обычного разового посещения. Вместо того чтобы спокойно помочь решить вопрос, сотрудники максимально усложнили процесс: демонстрировали недовольство, закатывали глаза и явно не были заинтересованы в том, чтобы помочь клиенту.\n\nПоэтому мне сложно согласиться с отзывами о «приветливом персонале, который всегда готов помочь». Мой личный опыт оказался прямо противоположным.\n\nВ итоге впечатление от зала испортило не столько оборудование или организация пространства, сколько качество обслуживания и отношение к клиенту. Возвращаться сюда желания нет, не рекомендую.",
+  "text_en": "I was extremely dissatisfied with the quality of service and the attitude of the staff.\n\nFrom the very beginning, the staff seemed unfriendly and arrogant. Instead of a proper introduction to the gym, the focus was on selling as many services as possible. There's no free first visit to get a feel for the gym.\n\nThe gym itself is new, as is the equipment, but the machines are mostly Chinese-made and didn't make much of an impression on me. The organization of the space also leaves much to be desired: the equipment is scattered, and the dumbbells aren't properly sorted by weight, making it difficult to find the right ones.\n\nBut the most disappointing thing was the attitude of the staff. After my first visit, I decided to cancel my monthly membership and asked for a refund, minus the cost of a regular one-time visit. Instead of calmly helping me resolve the issue, the staff made the process as difficult as possible: they showed dissatisfaction, rolled their eyes, and clearly showed no interest in helping the client.\n\nTherefore, I find it difficult to agree with the reviews about \"friendly staff who are always willing to help.\" My personal experience was the exact opposite.\n\nIn the end, it wasn't so much the equipment or the layout that ruined my impression of the gym, but the quality of service and the attitude toward the client. I have no desire to return, and I don't recommend it.",
+  "lang": "ru",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25sdU1HTTBTM0V3ZW1aMFJHSnRSMnR4YlZkTFdFRRAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOnluMGM0S3EwemZ0RGJtR2txbVdLWEE%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "complex",
+  "first_seen": "2026-08-18T08:00:29+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT25CS1kyTTRPRlJvU1Y5dFNuSlFURGx1VUMxeVFrRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT25CS1kyTTRPRlJvU1Y5dFNuSlFURGx1VUMxeVFrRRAB",
+  "rating": 5,
+  "author": "Dan Thomson",
+  "date": "2026-08-17",
+  "text": "Was about to head in for a gym session and was given a free 15min head and neck massage whilst I waited for a friend and it was incredible. Will definitely come back!",
+  "text_en": "",
+  "lang": "en",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25CS1kyTTRPRlJvU1Y5dFNuSlFURGx1VUMxeVFrRRAB!2m1!1s0x0:0xbfc8579d67588a2e!3m1!1s2@1:CAIQACodChtycF9oOnBKY2M4OFRoSV9tSnJQTDluUC1yQkE%7C%7C?hl=en",
+  "owner_replied": true,
+  "place": "massage",
+  "first_seen": "2026-08-18T08:00:29+07:00"
  }
 }
