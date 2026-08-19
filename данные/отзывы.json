@@ -1295,5 +1295,35 @@
   "owner_replied": true,
   "place": "massage",
   "first_seen": "2026-08-18T08:00:29+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT25wTFJFbFZVekF3VkdwM1NXc3hTVlpXUTFkTFVHYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT25wTFJFbFZVekF3VkdwM1NXc3hTVlpXUTFkTFVHYxAB",
+  "rating": 5,
+  "author": "Laphasrada “Bum”",
+  "date": "2026-08-18",
+  "text": "เป็น 2 ชั่วโมงที่มีความสุขมาก❤️😊",
+  "text_en": "It was a very happy two hours ❤️😊",
+  "lang": "th",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25wTFJFbFZVekF3VkdwM1NXc3hTVlpXUTFkTFVHYxAB!2m1!1s0x0:0xbfc8579d67588a2e!3m1!1s2@1:CAIQACodChtycF9oOnpLRElVUzAwVGp3SWsxSVZWQ1dLUGc%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "massage",
+  "first_seen": "2026-08-19T08:00:27+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT25SQ1dVRkdhMDVvU1ZoT00yeDFNa2hGTnpoTk1IYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT25SQ1dVRkdhMDVvU1ZoT00yeDFNa2hGTnpoTk1IYxAB",
+  "rating": 5,
+  "author": "stefan zubac",
+  "date": "2026-08-18",
+  "text": "Great shop.",
+  "text_en": "",
+  "lang": "en",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25SQ1dVRkdhMDVvU1ZoT00yeDFNa2hGTnpoTk1IYxAB!2m1!1s0x0:0x526ee8ad143ca89a!3m1!1s2@1:CAIQACodChtycF9oOnRCWUFGa05oSVhOM2x1MkhFNzhNMHc%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "shop",
+  "first_seen": "2026-08-19T08:00:27+07:00"
  }
 }
