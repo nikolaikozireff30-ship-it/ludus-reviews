@@ -1505,5 +1505,35 @@
   "owner_replied": true,
   "place": "massage",
   "first_seen": "2026-08-26T08:00:27+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT21Kc2JsUk1WWFJOVVdoUFowMHhOa1I1T0RWQlpVRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT21Kc2JsUk1WWFJOVVdoUFowMHhOa1I1T0RWQlpVRRAB",
+  "rating": 5,
+  "author": "Юля Большакова",
+  "date": "2026-08-26",
+  "text": "Была сегодня на массаже у мастера Praw. Очень понравилось. Мастер очень проницательная и очень аккуратно работала. Приду еще 🙏🏻",
+  "text_en": "I had a massage with Praw today. I really enjoyed it. She was very insightful and meticulous. I'll be back 🙏🏻",
+  "lang": "ru",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21Kc2JsUk1WWFJOVVdoUFowMHhOa1I1T0RWQlpVRRAB!2m1!1s0x0:0xbfc8579d67588a2e!3m1!1s2@1:CAIQACodChtycF9oOmJsblRMVXRNUWhPZ00xNkR5ODVBZUE%7C%7C?hl=en",
+  "owner_replied": true,
+  "place": "massage",
+  "first_seen": "2026-08-27T08:00:26+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2xoU1pHUk5VRUpPWjI1bll6QkZXa05FTkRWSGMzYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2xoU1pHUk5VRUpPWjI1bll6QkZXa05FTkRWSGMzYxAB",
+  "rating": 5,
+  "author": "Annie Hung (Annie)",
+  "date": "2026-08-26",
+  "text": "Rew,Aom,Gai very professional\nSports massage treated exact the area that are stiff , really different from normal massage\nSuitable for after gym training\n👍👍👍",
+  "text_en": "",
+  "lang": "en",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xoU1pHUk5VRUpPWjI1bll6QkZXa05FTkRWSGMzYxAB!2m1!1s0x0:0xbfc8579d67588a2e!3m1!1s2@1:CAIQACodChtycF9oOlhSZGRNUEJOZ25nYzBFWkNENDVHc3c%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "massage",
+  "first_seen": "2026-08-27T08:00:26+07:00"
  }
 }
