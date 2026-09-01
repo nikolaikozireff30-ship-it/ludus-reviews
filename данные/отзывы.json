@@ -1655,5 +1655,50 @@
   "owner_replied": false,
   "place": "complex",
   "first_seen": "2026-08-31T08:00:26+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2pGUlluRkpPRmhTTkZsRlJtRlJXa0puVURoMVJYYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2pGUlluRkpPRmhTTkZsRlJtRlJXa0puVURoMVJYYxAB",
+  "rating": 5,
+  "author": "Waree (Max) Cruekaew",
+  "date": "2026-08-31",
+  "text": "I attended the Muay Thai event on Saturday the 29th and really enjoyed it, especially the final fight! 🥊\n\nI highly recommend this place. You can work out, enjoy the fitness center, restaurant, and spa, and easily spend the whole day here.\n\nIf they organize another Muay Thai event, I will definitely come again! ❤️",
+  "text_en": "",
+  "lang": "en",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pGUlluRkpPRmhTTkZsRlJtRlJXa0puVURoMVJYYxAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOjFRYnFJOFhSNFlFRmFRWkJnUDh1RXc%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "complex",
+  "first_seen": "2026-09-01T08:00:27+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT25vd2JsTnFURGx6UmpocVluWlRNSEpOUVdwUk5YYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT25vd2JsTnFURGx6UmpocVluWlRNSEpOUVdwUk5YYxAB",
+  "rating": 5,
+  "author": "Philip W",
+  "date": "2026-08-31",
+  "text": "Great massage, and amazing premium experience",
+  "text_en": "",
+  "lang": "en",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25vd2JsTnFURGx6UmpocVluWlRNSEpOUVdwUk5YYxAB!2m1!1s0x0:0xbfc8579d67588a2e!3m1!1s2@1:CAIQACodChtycF9oOnowblNqTDlzRjhqYnZTMHJNQWpRNXc%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "massage",
+  "first_seen": "2026-09-01T08:00:27+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2pONlVUbHBaWEJpWDBGWFVYQktaMHBJWDJGNVMxRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2pONlVUbHBaWEJpWDBGWFVYQktaMHBJWDJGNVMxRRAB",
+  "rating": 5,
+  "author": "Maria Popova",
+  "date": "2026-08-31",
+  "text": "",
+  "text_en": "",
+  "lang": "",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pONlVUbHBaWEJpWDBGWFVYQktaMHBJWDJGNVMxRRAB!2m1!1s0x0:0xbfc8579d67588a2e!3m1!1s2@1:CAIQACodChtycF9oOjN6UTlpZXBiX0FXUXBKZ0pIX2F5S1E%7C%7C?hl=en",
+  "owner_replied": true,
+  "place": "massage",
+  "first_seen": "2026-09-01T08:00:27+07:00"
  }
 }
