@@ -171,6 +171,18 @@ def build_data():
         if end_snap:
             prev_snap = end_snap
 
+    # отзывы, оставленные ДО старта мониторинга: они найдены при первой загрузке
+    # и не относятся ни к одному отслеживаемому месяцу — показываем их отдельно,
+    # чтобы Overview не выглядел так, будто это вся база
+    до_старта = [r for r in reviews if (r.get("date") or "") and r["date"][:7] < START_MONTH]
+    оц_до = [r["rating"] for r in до_старта if isinstance(r.get("rating"), (int, float))]
+    pre_start = {
+        "count": len(до_старта),
+        "avg": round(sum(оц_до) / len(оц_до), 2) if оц_до else None,
+        "from": min((r["date"] for r in до_старта), default=None),
+        "to": max((r["date"] for r in до_старта), default=None),
+    }
+
     last = снимки[sorted(снимки)[-1]] if снимки else {}
     overall = []
     for src in ("google", "tripadvisor"):
@@ -179,6 +191,8 @@ def build_data():
             overall.append({"src": src, "key": pl["key"], "label": pl["label"], "rating": r, "count": cnt})
 
     return {"updated": now.strftime("%Y-%m-%d %H:%M"), "current_month": current,
+            "start_month": START_MONTH, "start_label": month_label(START_MONTH),
+            "pre_start": pre_start,
             "overall": overall, "months": out_months}
 
 
@@ -232,6 +246,7 @@ td.num{text-align:right;font-family:var(--head)}
 .rev .t{color:#cfcfcf;font-size:13px;margin-top:3px}
 .rev a{color:var(--red);text-decoration:none;font-size:12px}
 .hide{display:none}.mut{color:var(--silver);font-size:12px}
+.asof{color:var(--silver);font-size:12px;margin:-14px 0 20px;line-height:1.5}
 @media(max-width:720px){
   .wrap{padding:18px 14px 50px}
   .logo{font-size:22px;letter-spacing:2px}
@@ -272,6 +287,20 @@ function overallCards(o){
   }).join("")}</div>`;
 }
 
+// Карточки на вкладке месяца: рейтинг и число отзывов площадки НА КОНЕЦ ЭТОГО МЕСЯЦА,
+// а не текущие. Иначе август и сентябрь показывали одни и те же цифры.
+function monthCards(m){
+  const it = (m.place_stats||[]).filter(c=>c.rating!=null||c.count!=null);
+  if(!it.length) return overallCards(DATA.overall);
+  const now = m.key===DATA.current_month;
+  return `<div class="cards">${it.map(c=>{
+    const name=c.src==="google"?("Google · "+c.label):"TripAdvisor";
+    return `<div class="card"><div class="k">${name}</div>
+      <div class="v ${clr(c.rating)}">${fx(c.rating,1)}★ <span class="s">${c.count??"—"} reviews</span></div></div>`;
+  }).join("")}</div>
+  <div class="asof">${now?"Live totals — as of today":("Totals as of the end of "+m.label)}</div>`;
+}
+
 function overviewView(){
   const dm = DATA.months.filter(hasData);
   const all = dm.flatMap(m=>m.reviews||[]);
@@ -291,16 +320,22 @@ function overviewView(){
       <td class="num">${m.replied_pct==null?"·":m.replied_pct+"%"}</td>
       <td class="num ${clr(m.end_g)}">${fx(m.end_g,1)}★<div class="mut">Δ ${dg}</div></td>
       <td class="num ${clr(m.end_t)}">${fx(m.end_t,1)}★<div class="mut">Δ ${dt}</div></td></tr>`;}).join("");
+  const pre = DATA.pre_start||{count:0};
+  const preNote = pre.count ? `<div class="asof">Plus ${pre.count} older reviews already on the pages
+    when monitoring started (${pre.from} – ${pre.to}${pre.avg?`, avg ${pre.avg.toFixed(2)}★`:""}).
+    They are not counted in the monthly figures above.</div>` : "";
   return `${overallCards(DATA.overall)}
+    <div class="asof">Live totals — as of today</div>
     <h2>New reviews by month</h2>
     <div class="chartbox">${dm.length?'<canvas id="ovBars"></canvas>':'<div class="empty">Collecting data — the chart appears as months are recorded.</div>'}</div>
     <div class="stats">
-      <div class="stat"><div class="k">New reviews (all time)</div><div class="v">${all.length}</div></div>
+      <div class="stat"><div class="k">New reviews since ${DATA.start_label||""}</div><div class="v">${all.length}</div></div>
       <div class="stat"><div class="k">Avg of new</div><div class="v ${clr(totAvg)}">${fx(totAvg,2)}</div></div>
       <div class="stat"><div class="k">Negative (&lt;3★)</div><div class="v ${totNeg?"r":"g"}">${totNeg}</div></div>
       <div class="stat"><div class="k">Answered</div><div class="v ${repCls}">${totRep==null?"—":totRep+"%"}</div></div>
       <div class="stat"><div class="k">No-reply negative</div><div class="v ${totUnneg?"r":"g"}">${totUnneg}</div></div>
     </div>
+    ${preNote}
     <h2>Rating trend by month</h2>
     <div class="chartbox slim">${dm.length?'<canvas id="ovTrend"></canvas>':'<div class="empty">Appears as months are recorded.</div>'}</div>
     <h2>Months</h2>
@@ -334,7 +369,7 @@ function monthView(m){
         <td class="num ${p.neg?"r":""}">${p.neg||"·"}</td>
         <td class="num">${p.replied_pct==null?"·":p.replied_pct+"%"}</td></tr>`).join("")}
     </table></div>` : "";
-  return `${overallCards(DATA.overall)}
+  return `${monthCards(m)}
     <h2>${m.label} · new reviews by day</h2>
     <div class="chartbox">${m.new_total?`<canvas id="bars_${m.key}"></canvas>`
       :`<div class="empty">No reviews received in ${m.label} yet.</div>`}</div>
