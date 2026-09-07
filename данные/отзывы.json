@@ -1835,5 +1835,35 @@
   "owner_replied": false,
   "place": "gym",
   "first_seen": "2026-09-06T08:00:23+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2pObVRsQnNlblZJZERkQlFVNDRSMlp5V0ZkVk5rRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2pObVRsQnNlblZJZERkQlFVNDRSMlp5V0ZkVk5rRRAB",
+  "rating": 5,
+  "author": "Evgen",
+  "date": "2026-09-06",
+  "text": "",
+  "text_en": "",
+  "lang": "",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pObVRsQnNlblZJZERkQlFVNDRSMlp5V0ZkVk5rRRAB!2m1!1s0x0:0x413b47acee7ec37c!3m1!1s2@1:CAIQACodChtycF9oOjNmTlBsenVIdDdBQU44R2ZyWFdVNkE%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "gym",
+  "first_seen": "2026-09-07T08:00:25+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT21KcmJGRXplalo0TmxKNldWZDVTSGhCUzJWWE1HYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT21KcmJGRXplalo0TmxKNldWZDVTSGhCUzJWWE1HYxAB",
+  "rating": 5,
+  "author": "Елизавета Крылова",
+  "date": "2026-09-06",
+  "text": "Была на массаже у мастера Amp🙏🏼🩵\n30 минут массаж головы и час тело(ароматерапия)\nМассаж потрясающий,выше всяких похвал\nПо истечению сеанса мне захотелось оставить абсолютно все свои деньги мастеру!!🥺\nПрекрасная женщина и чудесный мастер\nВ салоне так же очень уютно,весь персонал обходительный",
+  "text_en": "I had a massage with Amp🙏🏼🩵\n30-minute head massage and an hour-long body massage (aromatherapy)\nThe massage was amazing, beyond all praise.\nAt the end of the session, I wanted to give the therapist absolutely all my money!!🥺\nA wonderful woman and a wonderful therapist.\nThe salon is also very cozy, and the entire staff is friendly.",
+  "lang": "ru",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21KcmJGRXplalo0TmxKNldWZDVTSGhCUzJWWE1HYxAB!2m1!1s0x0:0xbfc8579d67588a2e!3m1!1s2@1:CAIQACodChtycF9oOmJrbFEzejZ4NlJ6WVd5SHhBS2VXMGc%7C%7C?hl=en",
+  "owner_replied": true,
+  "place": "massage",
+  "first_seen": "2026-09-07T08:00:25+07:00"
  }
 }
