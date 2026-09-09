@@ -1880,5 +1880,50 @@
   "owner_replied": true,
   "place": "complex",
   "first_seen": "2026-09-08T08:00:28+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2poVFNYUjNaM05GYlhkMFdVNUtXUzF4VVV0VGJIYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2poVFNYUjNaM05GYlhkMFdVNUtXUzF4VVV0VGJIYxAB",
+  "rating": 5,
+  "author": "johny kalea",
+  "date": "2026-09-08",
+  "text": "",
+  "text_en": "",
+  "lang": "",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2poVFNYUjNaM05GYlhkMFdVNUtXUzF4VVV0VGJIYxAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOjhTSXR3Z3NFbXd0WU5KWS1xUUtTbHc%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "complex",
+  "first_seen": "2026-09-09T08:00:28+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2xkT2NVY3hiRkZtY2pkTGVsUlZWSEpVU20xRk4wRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2xkT2NVY3hiRkZtY2pkTGVsUlZWSEpVU20xRk4wRRAB",
+  "rating": 5,
+  "author": "mi likee",
+  "date": "2026-09-08",
+  "text": "",
+  "text_en": "",
+  "lang": "",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xkT2NVY3hiRkZtY2pkTGVsUlZWSEpVU20xRk4wRRAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOldOcUcxbFFmcjdLelRVVHJUSm1FN0E%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "complex",
+  "first_seen": "2026-09-09T08:00:28+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2xsYWRVTTVVbGRWUlV3NU1FRkpabUV5WDBJMFZIYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2xsYWRVTTVVbGRWUlV3NU1FRkpabUV5WDBJMFZIYxAB",
+  "rating": 1,
+  "author": "Ali Aljahwari",
+  "date": "2026-09-08",
+  "text": "Bad",
+  "text_en": "",
+  "lang": "en",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xsYWRVTTVVbGRWUlV3NU1FRkpabUV5WDBJMFZIYxAB!2m1!1s0x0:0x413b47acee7ec37c!3m1!1s2@1:CAIQACodChtycF9oOlladUM5UldVRUw5MEFJZmEyX0I0VHc%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "gym",
+  "first_seen": "2026-09-09T08:00:28+07:00"
  }
 }
