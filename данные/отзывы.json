@@ -1925,5 +1925,20 @@
   "owner_replied": false,
   "place": "gym",
   "first_seen": "2026-09-09T08:00:28+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2xCVlYyMHpPVFJhWHpWYVkwazVRelkxZG5WWFRHYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2xCVlYyMHpPVFJhWHpWYVkwazVRelkxZG5WWFRHYxAB",
+  "rating": 5,
+  "author": "Антон Клетаров (Lapesh)",
+  "date": "2026-09-09",
+  "text": "",
+  "text_en": "",
+  "lang": "",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xCVlYyMHpPVFJhWHpWYVkwazVRelkxZG5WWFRHYxAB!2m1!1s0x0:0x526ee8ad143ca89a!3m1!1s2@1:CAIQACodChtycF9oOlBVV20zOTRaXzVaY0k5QzY1dnVXTGc%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "shop",
+  "first_seen": "2026-09-10T08:00:30+07:00"
  }
 }
