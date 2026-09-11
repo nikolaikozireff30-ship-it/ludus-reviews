@@ -1940,5 +1940,50 @@
   "owner_replied": false,
   "place": "shop",
   "first_seen": "2026-09-10T08:00:30+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT25WUUxXaFdNMGswWkRKak1uTXhVR1V5Ym1SVk5VRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT25WUUxXaFdNMGswWkRKak1uTXhVR1V5Ym1SVk5VRRAB",
+  "rating": 5,
+  "author": "Clément Lefebvre",
+  "date": "2026-09-10",
+  "text": "Top gym, highly recommended! The staff is very professional, the facilities are amazing, and all the equipment is brand new and high quality.",
+  "text_en": "",
+  "lang": "en",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25WUUxXaFdNMGswWkRKak1uTXhVR1V5Ym1SVk5VRRAB!2m1!1s0x0:0x413b47acee7ec37c!3m1!1s2@1:CAIQACodChtycF9oOnVQLWhWM0k0ZDJjMnMxUGUybmRVNUE%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "gym",
+  "first_seen": "2026-09-11T08:00:28+07:00"
+ },
+ "tripadvisor:1077148139": {
+  "source": "tripadvisor",
+  "review_id": "1077148139",
+  "rating": 5,
+  "author": "Francesca W",
+  "date": "2026-09-10",
+  "text": "The gym is brand new, all new machines, extremely clean, they have cleaners on each floor constantly wiping down machines etc. plenty of dumbbells, current price is £25 for a weeks pass, or double for a whole month :)",
+  "text_en": "",
+  "lang": "en",
+  "title": "Good experience",
+  "url": "https://www.tripadvisor.com/ShowUserReviews-g1215781-d34160485-r1077148139-Ludus_Sports_Complex_Chalong-Phuket_Town_Phuket.html",
+  "owner_replied": false,
+  "place": "ta",
+  "first_seen": "2026-09-11T08:00:28+07:00"
+ },
+ "tripadvisor:1077146243": {
+  "source": "tripadvisor",
+  "review_id": "1077146243",
+  "rating": 5,
+  "author": "Robbie B",
+  "date": "2026-09-10",
+  "text": "Great gym, very modern and clean. Amazing space.",
+  "text_en": "",
+  "lang": "en",
+  "title": "Gym",
+  "url": "https://www.tripadvisor.com/ShowUserReviews-g1215781-d34160485-r1077146243-Ludus_Sports_Complex_Chalong-Phuket_Town_Phuket.html",
+  "owner_replied": false,
+  "place": "ta",
+  "first_seen": "2026-09-11T08:00:28+07:00"
  }
 }

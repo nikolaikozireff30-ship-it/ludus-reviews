@@ -1070,5 +1070,42 @@
     }
    }
   }
+ },
+ "2026-09-11": {
+  "g_rating": 4.6,
+  "g_count": 119,
+  "t_rating": 5,
+  "t_count": 21,
+  "places": {
+   "google": {
+    "complex": {
+     "label": "Sports Complex",
+     "r": 4.6,
+     "c": 119
+    },
+    "gym": {
+     "label": "Gym & Fitness",
+     "r": 4.3,
+     "c": 10
+    },
+    "massage": {
+     "label": "Massage",
+     "r": 5,
+     "c": 53
+    },
+    "shop": {
+     "label": "Sports Shop",
+     "r": 5,
+     "c": 18
+    }
+   },
+   "tripadvisor": {
+    "ta": {
+     "label": "TripAdvisor",
+     "r": 5,
+     "c": 21
+    }
+   }
+  }
  }
 }
