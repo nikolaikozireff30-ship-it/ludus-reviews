@@ -2045,5 +2045,20 @@
   "owner_replied": false,
   "place": "shop",
   "first_seen": "2026-09-13T08:00:27+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2w5MU9IcDVaVUpPWlZrdFNUWkxRbGRYU0U5Q2VIYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2w5MU9IcDVaVUpPWlZrdFNUWkxRbGRYU0U5Q2VIYxAB",
+  "rating": 5,
+  "author": "Kate Liw",
+  "date": "2026-09-13",
+  "text": "Just 2.7km away from Marriot Courtyard. I like their environment. Very clean and have individual room. Their massage was Really good! I fall asleep  during the massage. Had a great experience over here.",
+  "text_en": "",
+  "lang": "en",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2w5MU9IcDVaVUpPWlZrdFNUWkxRbGRYU0U5Q2VIYxAB!2m1!1s0x0:0xbfc8579d67588a2e!3m1!1s2@1:CAIQACodChtycF9oOl91OHp5ZUJOZVktSTZLQldXSE9CeHc%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "massage",
+  "first_seen": "2026-09-14T08:00:27+07:00"
  }
 }
