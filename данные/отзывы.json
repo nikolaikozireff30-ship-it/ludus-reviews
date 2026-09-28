@@ -2195,5 +2195,20 @@
   "owner_replied": false,
   "place": "massage",
   "first_seen": "2026-09-27T08:00:27+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2xST1pXWTJOSFZKUWxkMU5tRmZlWE50U0dkR1FWRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2xST1pXWTJOSFZKUWxkMU5tRmZlWE50U0dkR1FWRRAB",
+  "rating": 5,
+  "author": "Данил Самборский",
+  "date": "2026-09-27",
+  "text": "Прекрасный фитнес-клуб! Новые тренажеры, чистота в залах и раздевалках, приятная атмосфера. Заниматься здесь одно удовольствие. Рекомендую!",
+  "text_en": "A wonderful fitness club! New equipment, clean gyms and locker rooms, and a pleasant atmosphere. Working out here is a pleasure. I highly recommend it!",
+  "lang": "ru",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xST1pXWTJOSFZKUWxkMU5tRmZlWE50U0dkR1FWRRAB!2m1!1s0x0:0x413b47acee7ec37c!3m1!1s2@1:CAIQACodChtycF9oOlROZWY2NHVJQld1NmFfeXNtSGdGQVE%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "gym",
+  "first_seen": "2026-09-28T08:00:25+07:00"
  }
 }
