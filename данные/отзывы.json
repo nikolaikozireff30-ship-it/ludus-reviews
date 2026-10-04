@@ -2240,5 +2240,20 @@
   "owner_replied": false,
   "place": "ta",
   "first_seen": "2026-09-30T08:00:23+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2t0RWNITnlRM2x0TFUxYVoyWnljbXBJY210MVpXYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2t0RWNITnlRM2x0TFUxYVoyWnljbXBJY210MVpXYxAB",
+  "rating": 5,
+  "author": "Tichakorn Wichaikit",
+  "date": "2026-10-03",
+  "text": "",
+  "text_en": "",
+  "lang": "",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2t0RWNITnlRM2x0TFUxYVoyWnljbXBJY210MVpXYxAB!2m1!1s0x0:0x413b47acee7ec37c!3m1!1s2@1:CAIQACodChtycF9oOktEcHNyQ3ltLU1aZ2ZycmpIcmt1ZWc%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "gym",
+  "first_seen": "2026-10-04T08:00:24+07:00"
  }
 }
