@@ -1,0 +1,30 @@
+name: Сторож мониторинга отзывов
+
+# Зачем: сбор дёргается извне (cron-job.org). Если пинок пропадёт, данные тихо
+# замирают — так мы потеряли месяц. Этот сторож бежит по расписанию самого
+# GitHub, Apify не трогает (значит, кредиты не тратит) и кричит в Telegram,
+# если свежих снимков нет дольше двух суток.
+
+on:
+  schedule:
+    - cron: "0 5 * * *"      # 05:00 UTC = 12:00 Пхукет, ежедневно
+  workflow_dispatch:          # и вручную, кнопкой, когда нужно проверить
+
+permissions:
+  contents: read
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Проверить, что сбор не замолчал
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python3 tools/сторож.py

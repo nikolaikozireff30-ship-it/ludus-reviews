@@ -385,6 +385,18 @@ def main():
     все, статы = собрать(c, места)
     print(f"  fetched: {len(все)}")
 
+    # Apify не ответил НИ ПО ОДНОЙ точке: кончились месячные $5, протух токен
+    # или актор сменил интерфейс. Молча продолжать нельзя — снимок запишется
+    # цифрами, подтянутыми из склада, и сбой останется незаметным (так мы
+    # потеряли сентябрь 2026). Падаем громко: красный прогон + сообщение в чат.
+    if not первый_запуск and not (статы["google"] or статы["tripadvisor"]):
+        if tg:
+            tg_send("🚨 <b>Review collector failed.</b>\n\n"
+                    "Apify returned nothing for every place — most likely the monthly "
+                    "$5 allowance is used up, or APIFY_TOKEN is no longer valid.\n\n"
+                    "Today's data was not recorded.", tg)
+        sys.exit("❌ Apify не ответил ни по одной точке — прогон прерван, данные не тронуты.")
+
     now_iso = now_ph.isoformat(timespec="seconds")
     # точки, по которым уже есть история: их свежие отзывы = настоящие «новые»;
     # первая загрузка незнакомой точки — базовая, без уведомлений
