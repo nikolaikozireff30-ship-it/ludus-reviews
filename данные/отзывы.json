@@ -2255,5 +2255,20 @@
   "owner_replied": false,
   "place": "gym",
   "first_seen": "2026-10-04T08:00:24+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2taRU4xbERlWFozTkVKVlQxUmhVVTl5T0VKVE4xRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2taRU4xbERlWFozTkVKVlQxUmhVVTl5T0VKVE4xRRAB",
+  "rating": 5,
+  "author": "Mavis Leung",
+  "date": "2026-10-05",
+  "text": "Namtan my sport massage was excellent. She held me during my first session and I came back the next day. It was all fixed up much appreciated. Best massage I had from Phuket fitness Street",
+  "text_en": "",
+  "lang": "en",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2taRU4xbERlWFozTkVKVlQxUmhVVTl5T0VKVE4xRRAB!2m1!1s0x0:0xbfc8579d67588a2e!3m1!1s2@1:CAIQACodChtycF9oOkZEN1lDeXZ3NEJVT1RhUU9yOEJTN1E%7C%7C?hl=en",
+  "owner_replied": true,
+  "place": "massage",
+  "first_seen": "2026-10-06T08:00:24+07:00"
  }
 }
