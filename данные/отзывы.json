@@ -2495,5 +2495,20 @@
   "owner_replied": false,
   "place": "massage",
   "first_seen": "2026-10-14T08:00:23+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2xkZk1qVm1jRUoxVW5Gb01uWmtTblpDWkVkQ05FRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2xkZk1qVm1jRUoxVW5Gb01uWmtTblpDWkVkQ05FRRAB",
+  "rating": 5,
+  "author": "Phurinat Thathnok",
+  "date": "2026-10-14",
+  "text": "ราคาถูกสำหรับนักเรียน",
+  "text_en": "Affordable for students.",
+  "lang": "th",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xkZk1qVm1jRUoxVW5Gb01uWmtTblpDWkVkQ05FRRAB!2m1!1s0x0:0x413b47acee7ec37c!3m1!1s2@1:CAIQACodChtycF9oOldfMjVmcEJ1UnFoMnZkSnZCZEdCNEE%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "gym",
+  "first_seen": "2026-10-15T08:00:28+07:00"
  }
 }
