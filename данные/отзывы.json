@@ -2510,5 +2510,20 @@
   "owner_replied": false,
   "place": "gym",
   "first_seen": "2026-10-15T08:00:28+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2tSbE4zUkhVMlpXVGtzeFoxVkJRMk5HUTJWbmNtYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2tSbE4zUkhVMlpXVGtzeFoxVkJRMk5HUTJWbmNtYxAB",
+  "rating": 5,
+  "author": "cka3",
+  "date": "2026-10-15",
+  "text": "Сервис, который очень редко встретишь в Тае. Очень красиво, аккуратно, прекрасный массаж и очень дружелюбный стаф",
+  "text_en": "A service that's very rare to find in Thailand. Very beautiful, neat, wonderful massage, and very friendly staff.",
+  "lang": "ru",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tSbE4zUkhVMlpXVGtzeFoxVkJRMk5HUTJWbmNtYxAB!2m1!1s0x0:0xbfc8579d67588a2e!3m1!1s2@1:CAIQACodChtycF9oOkRlN3RHU2ZWTksxZ1VBQ2NGQ2Vncmc%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "massage",
+  "first_seen": "2026-10-16T08:00:24+07:00"
  }
 }
