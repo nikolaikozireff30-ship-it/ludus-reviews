@@ -2525,5 +2525,35 @@
   "owner_replied": false,
   "place": "massage",
   "first_seen": "2026-10-16T08:00:24+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT21jemNuVmFaR2RzVG05NVdHVjFNM1ZoY1VsMllrRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT21jemNuVmFaR2RzVG05NVdHVjFNM1ZoY1VsMllrRRAB",
+  "rating": 5,
+  "author": "Lucas Cambon",
+  "date": "2026-10-16",
+  "text": "Excellent place! Top notch. Really surprising. The service, the staff, the skills of the people working here. Everything! Highly recommend",
+  "text_en": "",
+  "lang": "en",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21jemNuVmFaR2RzVG05NVdHVjFNM1ZoY1VsMllrRRAB!2m1!1s0x0:0xbfc8579d67588a2e!3m1!1s2@1:CAIQACodChtycF9oOmczcnVaZGdsTm95WGV1M3VhcUl2YkE%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "massage",
+  "first_seen": "2026-10-17T08:00:25+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT25aa2FHZEtiV1JRVjBaR1NUbGtZMkowVWpoMU1tYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT25aa2FHZEtiV1JRVjBaR1NUbGtZMkowVWpoMU1tYxAB",
+  "rating": 5,
+  "author": "Wipaporn Ungsakul",
+  "date": "2026-10-16",
+  "text": "Amazing experience! The massage was excellent, the staff were friendly and professional, and the atmosphere was relaxing. I felt so much better afterward. Highly recommended!",
+  "text_en": "",
+  "lang": "en",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25aa2FHZEtiV1JRVjBaR1NUbGtZMkowVWpoMU1tYxAB!2m1!1s0x0:0xbfc8579d67588a2e!3m1!1s2@1:CAIQACodChtycF9oOnZkaGdKbWRQV0ZGSTlkY2J0Ujh1Mmc%7C%7C?hl=en",
+  "owner_replied": false,
+  "place": "massage",
+  "first_seen": "2026-10-17T08:00:25+07:00"
  }
 }
