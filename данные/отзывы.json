@@ -2600,5 +2600,20 @@
   "owner_replied": false,
   "place": "massage",
   "first_seen": "2026-10-19T08:00:24+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT21kUVpYY3RhM0pOTVRCV09YTllkUzExVWt4TldIYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT21kUVpYY3RhM0pOTVRCV09YTllkUzExVWt4TldIYxAB",
+  "rating": 3,
+  "author": "Deyan Ivanov",
+  "date": "2026-10-19",
+  "text": "The gym is good, but it has one of the weirdest and bad rules.\nYou cannot use any of the rooms, even tho they’re empty, so if you would like to stretch/use the mma/boxing equipment for 5-10 minutes even for a warmup, you cannot, even though nobody is using it or there’s no classes.\n\nMost of the machines are only 1 of each, so you always have to wait for people. A normal 40-56 minute workout stretches to around 1 hour 15 minutes.\n\nYou cannot use the advertised sports space on the roof floor, it’s always locked and you must rent it per hour, even though nobody nobody ever rents it.\n\nWeird monetisation, they’re trying to squeeze money of out their customers.\n\nToday I had to wait 17 minutes for the cables, because there’s only 1 cable machine available",
+  "text_en": "",
+  "lang": "en",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21kUVpYY3RhM0pOTVRCV09YTllkUzExVWt4TldIYxAB!2m1!1s0x0:0x413b47acee7ec37c!3m1!1s2@1:CAIQACodChtycF9oOmdQZXcta3JNMTBWOXNYdS11UkxNWHc%7C%7C?hl=en",
+  "owner_replied": true,
+  "place": "gym",
+  "first_seen": "2026-10-20T08:00:25+07:00"
  }
 }
