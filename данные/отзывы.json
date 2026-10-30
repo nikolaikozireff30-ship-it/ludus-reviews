@@ -2810,5 +2810,35 @@
   "owner_replied": false,
   "place": "massage",
   "first_seen": "2026-10-28T08:00:28+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT25odVdERnJjazB3YVRWdGVtZHhhVWRMTUVGQlIyYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT25odVdERnJjazB3YVRWdGVtZHhhVWRMTUVGQlIyYxAB",
+  "rating": 5,
+  "author": "Sirilak Ishizaka Antarasen",
+  "date": "2026-10-29",
+  "text": "บริการดีเยี่ยม",
+  "text_en": "Excellent service",
+  "lang": "th",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25odVdERnJjazB3YVRWdGVtZHhhVWRMTUVGQlIyYxAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOnhuWDFrck0waTVtemdxaUdLMEFBR2c%7C%7C?hl=en-US",
+  "owner_replied": false,
+  "place": "complex",
+  "first_seen": "2026-10-30T08:00:28+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2xwWU9VRmpMWE5ZUlVaRFlsOUJRelJuWmpNelJXYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2xwWU9VRmpMWE5ZUlVaRFlsOUJRelJuWmpNelJXYxAB",
+  "rating": 5,
+  "author": "Sirilak Ishizaka Antarasen",
+  "date": "2026-10-29",
+  "text": "บริการดีมาก",
+  "text_en": "Excellent service.",
+  "lang": "th",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xwWU9VRmpMWE5ZUlVaRFlsOUJRelJuWmpNelJXYxAB!2m1!1s0x0:0x413b47acee7ec37c!3m1!1s2@1:CAIQACodChtycF9oOlpYOUFjLXNYRUZDYl9BQzRnZjMzRWc%7C%7C?hl=en-US",
+  "owner_replied": false,
+  "place": "gym",
+  "first_seen": "2026-10-30T08:00:28+07:00"
  }
 }
