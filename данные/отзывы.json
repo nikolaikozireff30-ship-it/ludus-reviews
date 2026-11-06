@@ -2930,5 +2930,50 @@
   "owner_replied": false,
   "place": "complex",
   "first_seen": "2026-11-05T08:00:29+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT21odFkxRlRNMlY2TVhRMlkxUmZiamRJUTNNd1VsRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT21odFkxRlRNMlY2TVhRMlkxUmZiamRJUTNNd1VsRRAB",
+  "rating": 5,
+  "author": "Катерина Никулина",
+  "date": "2026-11-05",
+  "text": "Отличный зал, много места, кондиционеры работают идеально, потрясающая кроссфит зона, много стоек под штангу и большое пространство для работы со свободными весами. Очень хорошее зонирование, отличные современные раздевалки, нет запаха моющих средств в туалетах, приветливый персонал. Все нравится!",
+  "text_en": "Great gym, plenty of space, perfect air conditioning, amazing CrossFit zone, plenty of barbell racks, and plenty of free weight room. Great layout, great modern locker rooms, no smell of cleaning products in the restrooms, friendly staff. I love everything!",
+  "lang": "ru",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21odFkxRlRNMlY2TVhRMlkxUmZiamRJUTNNd1VsRRAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOmhtY1FTM2V6MXQ2Y1RfbjdIQ3MwUlE%7C%7C?hl=en-US",
+  "owner_replied": true,
+  "place": "complex",
+  "first_seen": "2026-11-06T08:00:32+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2tWR2FVeG5ORWhpTTJGRVlqRk5kRFZ3VGxnelEyYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2tWR2FVeG5ORWhpTTJGRVlqRk5kRFZ3VGxnelEyYxAB",
+  "rating": 5,
+  "author": "Nay Htut",
+  "date": "2026-11-05",
+  "text": "",
+  "text_en": "",
+  "lang": "",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tWR2FVeG5ORWhpTTJGRVlqRk5kRFZ3VGxnelEyYxAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOkVGaUxnNEhiM2FEYjFNdDVwTlgzQ2c%7C%7C?hl=en-US",
+  "owner_replied": true,
+  "place": "complex",
+  "first_seen": "2026-11-06T08:00:32+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2toSlVtazVTWFZ6WkRsV2JHbHhSekpxWjNjeFkwRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2toSlVtazVTWFZ6WkRsV2JHbHhSekpxWjNjeFkwRRAB",
+  "rating": 5,
+  "author": "Nay Htut",
+  "date": "2026-11-05",
+  "text": "",
+  "text_en": "",
+  "lang": "",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2toSlVtazVTWFZ6WkRsV2JHbHhSekpxWjNjeFkwRRAB!2m1!1s0x0:0x526ee8ad143ca89a!3m1!1s2@1:CAIQACodChtycF9oOkhJUmk5SXVzZDlWbGlxRzJqZ3cxY0E%7C%7C?hl=en-US",
+  "owner_replied": false,
+  "place": "shop",
+  "first_seen": "2026-11-06T08:00:32+07:00"
  }
 }
