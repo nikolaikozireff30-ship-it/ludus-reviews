@@ -2975,5 +2975,20 @@
   "owner_replied": false,
   "place": "shop",
   "first_seen": "2026-11-06T08:00:32+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2t4ek4wcE5jSEUxWHpkM1VUaFZRVWs0T1doUFVuYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2t4ek4wcE5jSEUxWHpkM1VUaFZRVWs0T1doUFVuYxAB",
+  "rating": 5,
+  "author": "sagi shiffer",
+  "date": "2026-11-09",
+  "text": "The best shop",
+  "text_en": "",
+  "lang": "en",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2t4ek4wcE5jSEUxWHpkM1VUaFZRVWs0T1doUFVuYxAB!2m1!1s0x0:0x526ee8ad143ca89a!3m1!1s2@1:CAIQACodChtycF9oOkxzN0pNcHE1Xzd3UThVQUk4OWhPUnc%7C%7C?hl=en-US",
+  "owner_replied": false,
+  "place": "shop",
+  "first_seen": "2026-11-10T08:00:31+07:00"
  }
 }
