@@ -2990,5 +2990,20 @@
   "owner_replied": false,
   "place": "shop",
   "first_seen": "2026-11-10T08:00:31+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2pJemJGVktSMlIxY21sdWJGVjVhMHN4YkVoS1kyYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2pJemJGVktSMlIxY21sdWJGVjVhMHN4YkVoS1kyYxAB",
+  "rating": 1,
+  "author": "Томас Кабб",
+  "date": "2026-11-13",
+  "text": "",
+  "text_en": "",
+  "lang": "",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pJemJGVktSMlIxY21sdWJGVjVhMHN4YkVoS1kyYxAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOjIzbFVKR2R1cmlubFV5a0sxbEhKY2c%7C%7C?hl=en-US",
+  "owner_replied": false,
+  "place": "complex",
+  "first_seen": "2026-11-14T08:00:29+07:00"
  }
 }
