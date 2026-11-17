@@ -3005,5 +3005,35 @@
   "owner_replied": false,
   "place": "complex",
   "first_seen": "2026-11-14T08:00:29+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2tKSmJrVjVWVEJyU1dVeVdFUk1ja0pFZVUxTlRFRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2tKSmJrVjVWVEJyU1dVeVdFUk1ja0pFZVUxTlRFRRAB",
+  "rating": 5,
+  "author": "Анастасия Ветютнева",
+  "date": "2026-11-16",
+  "text": "Читаю некоторые отзывы и удивляюсь, насколько люди порой бывают придирчивы к мелочам. На мой взгляд, это один из лучших залов на острове. Оличное оборудование, адекватные цены,<br>доброжелательные администраторы и сильный тренерский состав. Особенно хочется отметить направление ММА - действительно очень сильные, компетентные тренеры. По боксу тоже сложилось хорошее впечатление- тренеры грамотные, видно, что знают свое дело)<br>Зал открылся совсем недавно, поэтому, думаю, какие-то недочеты на начальном этапе вполне естественны. Команда только набирает обороты, но уже сейчас видно, что у проекта большие перспективы. Желаю ребятам дальнейшего развития! Думаю, у этого места большое будущее 🙏🏼",
+  "text_en": "I read some reviews and am surprised at how picky people can be about details. In my opinion, this is one of the best gyms on the island. Excellent equipment, reasonable prices,<br>friendly administrators, and a strong coaching staff. I'd especially like to mention the MMA department—the coaches are truly strong and competent. I also got a good impression of the boxing—the coaches are knowledgeable and clearly know their stuff.<br>The gym opened only recently, so I think some initial flaws are natural. The team is just getting going, but it's already clear that the project has great potential. I wish the guys continued success! I think this place has a great future 🙏🏼",
+  "lang": "ru",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tKSmJrVjVWVEJyU1dVeVdFUk1ja0pFZVUxTlRFRRAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOkJJbkV5VTBrSWUyWERMckJEeU1NTEE%7C%7C?hl=en-US",
+  "owner_replied": false,
+  "place": "complex",
+  "first_seen": "2026-11-17T08:00:30+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2pKU09GZHRkVmwzWld4amJWQk1VRjgxY21kV1FXYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2pKU09GZHRkVmwzWld4amJWQk1VRjgxY21kV1FXYxAB",
+  "rating": 1,
+  "author": "D G",
+  "date": "2026-11-09",
+  "text": "Unusual and uncomfortable business practices.",
+  "text_en": "",
+  "lang": "en",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pKU09GZHRkVmwzWld4amJWQk1VRjgxY21kV1FXYxAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOjJSOFdtdVl3ZWxjbVBMUF81cmdWQWc%7C%7C?hl=en-US",
+  "owner_replied": false,
+  "place": "complex",
+  "first_seen": "2026-11-17T08:00:30+07:00"
  }
 }
