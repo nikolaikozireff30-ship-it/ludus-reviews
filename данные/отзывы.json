@@ -3035,5 +3035,20 @@
   "owner_replied": false,
   "place": "complex",
   "first_seen": "2026-11-17T08:00:30+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2toM1RFbHhabFJsTVdGdWQxQk1VRlpVWDA5cVVYYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2toM1RFbHhabFJsTVdGdWQxQk1VRlpVWDA5cVVYYxAB",
+  "rating": 4,
+  "author": "pascal nouma",
+  "date": "2026-11-18",
+  "text": "Everything is great, except for the fact that everyone thinks they’re the main character.",
+  "text_en": "",
+  "lang": "en",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2toM1RFbHhabFJsTVdGdWQxQk1VRlpVWDA5cVVYYxAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOkh3TElxZlRlMWFud1BMUFZUX09qUXc%7C%7C?hl=en-US",
+  "owner_replied": false,
+  "place": "complex",
+  "first_seen": "2026-11-19T08:00:36+07:00"
  }
 }
