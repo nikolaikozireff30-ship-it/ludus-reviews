@@ -3125,5 +3125,20 @@
   "owner_replied": false,
   "place": "gym",
   "first_seen": "2026-11-21T08:00:31+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2xKS2FHSk9jRmRJVUhsNGMwOXlYMEp4U1hWZmRFRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2xKS2FHSk9jRmRJVUhsNGMwOXlYMEp4U1hWZmRFRRAB",
+  "rating": 5,
+  "author": "Ivan Sotnikov",
+  "date": "2026-11-22",
+  "text": "Приезжаем сюда на массаж по воскресениям, все хорошо!",
+  "text_en": "We come here for massages on Sundays, everything is great!",
+  "lang": "ru",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xKS2FHSk9jRmRJVUhsNGMwOXlYMEp4U1hWZmRFRRAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOlJKaGJOcFdIUHl4c09yX0JxSXVfdEE%7C%7C?hl=en-US",
+  "owner_replied": false,
+  "place": "complex",
+  "first_seen": "2026-11-23T08:00:28+07:00"
  }
 }
