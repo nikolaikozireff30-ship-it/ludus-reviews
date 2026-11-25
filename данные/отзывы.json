@@ -3140,5 +3140,20 @@
   "owner_replied": false,
   "place": "complex",
   "first_seen": "2026-11-23T08:00:28+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT2s5R2JXRXlNbmw0WkdOcU9EVTRlR1ZxYWpGNVEyYxAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT2s5R2JXRXlNbmw0WkdOcU9EVTRlR1ZxYWpGNVEyYxAB",
+  "rating": 2,
+  "author": "Brayden S",
+  "date": "2026-11-24",
+  "text": "",
+  "text_en": "",
+  "lang": "",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2s5R2JXRXlNbmw0WkdOcU9EVTRlR1ZxYWpGNVEyYxAB!2m1!1s0x0:0x413b47acee7ec37c!3m1!1s2@1:CAIQACodChtycF9oOk9GbWEyMnl4ZGNqODU4eGVqajF5Q2c%7C%7C?hl=en-US",
+  "owner_replied": false,
+  "place": "gym",
+  "first_seen": "2026-11-25T08:00:32+07:00"
  }
 }
