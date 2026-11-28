@@ -3230,5 +3230,20 @@
   "owner_replied": false,
   "place": "gym",
   "first_seen": "2026-11-27T08:00:33+07:00"
+ },
+ "google:Ci9DQUlRQUNvZENodHljRjlvT213d09VMUlSVTVsWWpsNVFubzVhR2t4VkRGblVGRRAB": {
+  "source": "google",
+  "review_id": "Ci9DQUlRQUNvZENodHljRjlvT213d09VMUlSVTVsWWpsNVFubzVhR2t4VkRGblVGRRAB",
+  "rating": 5,
+  "author": "รถแห่ป้ายโฆษณา ภูเก็ต",
+  "date": "2026-11-27",
+  "text": "",
+  "text_en": "",
+  "lang": "",
+  "title": "",
+  "url": "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT213d09VMUlSVTVsWWpsNVFubzVhR2t4VkRGblVGRRAB!2m1!1s0x0:0x194007263b5aa41a!3m1!1s2@1:CAIQACodChtycF9oOmwwOU1IRU5lYjl5Qno5aGkxVDFnUFE%7C%7C?hl=en-US",
+  "owner_replied": false,
+  "place": "complex",
+  "first_seen": "2026-11-28T08:00:31+07:00"
  }
 }
